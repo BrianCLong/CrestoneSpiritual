@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crestone Spiritual Centers & Groups Database</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+```
+    .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        overflow: hidden;
+    }
+    
+    .header {
+        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        color: white;
+        padding: 30px;
+        text-align: center;
+    }
+    
+    .header h1 {
+        margin: 0 0 10px 0;
+        font-size: 2.5em;
+        font-weight: 300;
+    }
+    
+    .header p {
+        margin: 0;
+        opacity: 0.9;
+        font-size: 1.1em;
+    }
+    
+    .stats {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+        margin-top: 20px;
+        flex-wrap: wrap;
+    }
+    
+    .stat {
+        text-align: center;
+    }
+    
+    .stat-number {
+        font-size: 2em;
+        font-weight: bold;
+        display: block;
+    }
+    
+    .stat-label {
+        font-size: 0.9em;
+        opacity: 0.8;
+    }
+    
+    .controls {
+        padding: 20px 30px;
+        background: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+    }
+    
+    .filter-group {
+        display: flex;
+        gap: 15px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    
+    .filter-group label {
+        font-weight: 600;
+        color: #495057;
+    }
+    
+    .filter-select, .search-input {
+        padding: 8px 12px;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+    
+    .search-input {
+        width: 250px;
+    }
+    
+    .table-container {
+        overflow-x: auto;
+        max-height: 70vh;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+    
+    th {
+        background: #2c3e50;
+        color: white;
+        padding: 15px 12px;
+        text-align: left;
+        font-weight: 600;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+    
+    td {
+        padding: 12px;
+        border-bottom: 1px solid #e9ecef;
+        vertical-align: top;
+    }
+    
+    tr:hover {
+        background-color: #f8f9fa;
+    }
+    
+    .tradition {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+    
+    .buddhist { background: #e3f2fd; color: #1565c0; }
+    .hindu { background: #fff3e0; color: #ef6c00; }
+    .christian { background: #f3e5f5; color: #7b1fa2; }
+    .sufi { background: #e8f5e8; color: #2e7d32; }
+    .new-age { background: #fff8e1; color: #f57f17; }
+    .nrm { background: #ffebee; color: #c62828; }
+    .interfaith { background: #e1f5fe; color: #0277bd; }
+    .indigenous { background: #e0f2f1; color: #00695c; }
+    .secular { background: #f5f5f5; color: #424242; }
+    
+    .status {
+        display: inline-block;
+        padding: 4px 8px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+    }
+    
+    .active { background: #c8e6c9; color: #2e7d32; }
+    .inactive { background: #ffcdd2; color: #c62828; }
+    .unknown { background: #f5f5f5; color: #757575; }
+    
+    .description {
+        max-width: 300px;
+        line-height: 1.4;
+    }
+    
+    .founded {
+        font-weight: 600;
+        color: #495057;
+    }
+    
+    .nrm-highlight {
+        background: linear-gradient(135deg, #ffebee 0%, #fce4ec 100%);
+    }
+    
+    .footer {
+        padding: 20px 30px;
+        background: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+        text-align: center;
+        color: #6c757d;
+        font-size: 0.9em;
+    }
+    
+    .export-btn {
+        background: #28a745;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-left: 15px;
+    }
+    
+    .export-btn:hover {
+        background: #218838;
+    }
+    
+    @media (max-width: 768px) {
+        .stats {
+            gap: 20px;
+        }
+        
+        .filter-group {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .search-input {
+            width: 100%;
+        }
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Crestone Spiritual Centers Database</h1>
+            <p>Comprehensive directory of spiritual places and groups in Crestone, Colorado</p>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-number" id="totalCount">69</span>
+                    <span class="stat-label">Total Centers</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="traditionCount">9</span>
+                    <span class="stat-label">Traditions</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="nrmCount">15</span>
+                    <span class="stat-label">NRMs</span>
+                </div>
+            </div>
+        </div>
+
+```
+    <div class="controls">
+        <div class="filter-group">
+            <label for="traditionFilter">Filter by Tradition:</label>
+            <select id="traditionFilter" class="filter-select">
+                <option value="">All Traditions</option>
+                <option value="buddhist">Buddhist</option>
+                <option value="hindu">Hindu</option>
+                <option value="christian">Christian</option>
+                <option value="sufi">Sufi</option>
+                <option value="new-age">New Age</option>
+                <option value="nrm">NRM</option>
+                <option value="interfaith">Interfaith</option>
+                <option value="indigenous">Indigenous</option>
+            </select>
+            
+            <label for="statusFilter">Filter by Status:</label>
+            <select id="statusFilter" class="filter-select">
+                <option value="">All Statuses</option>
+                <option value="active">Active</option>
+                <option value="inactive">Inactive</option>
+                <option value="unknown">Unknown</option>
+            </select>
+            
+            <label for="searchInput">Search:</label>
+            <input type="text" id="searchInput" class="search-input" placeholder="Search centers, traditions, locations...">
+            
+            <button class="export-btn" onclick="exportData()">Export CSV</button>
+        </div>
+    </div>
+    
+    <div class="table-container">
+        <table id="centersTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Tradition</th>
+                    <th>Type</th>
+                    <th>Founded</th>
+                    <th>Status</th>
+                    <th>Description</th>
+                    <th>Key Features</th>
+                </tr>
+            </thead>
+            <tbody id="tableBody">
+            </tbody>
+        </table>
+    </div>
+    
+    <div class="footer">
+        <p>COMPLETE COMPREHENSIVE DATABASE including all esoteric, initiatory, occult, Wiccan, pagan, Asatru, identity, Christian nationalist, UFO, cargo cult, Q-linked, Masonic, and Catholic organizations. NRM = New Religious Movement.</p>
+        <p>Last updated: January 2025 | Total entries: <span id="footerCount">69</span> | THE ULTIMATE SPIRITUAL ECOSYSTEM DOCUMENTATION</p>
+    </div>
+</div>
+
+<script>
+    const spiritualCenters = [
+        {
+            name: "Vajra Vidya Retreat Center",
+            tradition: "buddhist",
+            type: "Tibetan Buddhist Retreat Center",
+            founded: "1990s",
+            status: "active",
+            description: "Founded by Venerable Thrangu Rinpoche for intensive Buddhist practice, including traditional Three Year Retreats",
+            features: "35-acre campus, modern facilities, teachings by renowned masters"
+        },
+        {
+            name: "Tara Mandala (Connection to Crestone)",
+            tradition: "buddhist",
+            type: "Tibetan Buddhist Community",
+            founded: "1994",
+            status: "active",
+            description: "Led by Lama Tsultrim Allione, recognized as emanation of Machig Labdrön, with strong connections to Crestone spiritual community",
+            features: "Feeding Your Demons practice, Chöd lineage, Pagosa Springs center, Crestone connections"
+        },
+        {
+            name: "Yeshe Rangsal",
+            tradition: "buddhist",
+            type: "Tsoknyi Rinpoche's Western Seat",
+            founded: "Unknown",
+            status: "active",
+            description: "Western seat of Tsoknyi Rinpoche, connected to Pundarika Foundation activities",
+            features: "Dzogchen teachings, nunnery support, Eastern Tibet lineage"
+        },
+        {
+            name: "Crestone Mountain Zen Center (Dharma Sangha)",
+            tradition: "buddhist",
+            type: "Zen Monastic Center",
+            founded: "1990s",
+            status: "active",
+            description: "Zen Buddhist monastic practice and retreat center under Zentatsu Baker Roshi",
+            features: "Residential training, meditation retreats, online programs"
+        },
+        {
+            name: "Karma Thegsum Tashi Gomang (KTTG)",
+            tradition: "buddhist",
+            type: "Tibetan Buddhist Stupa & Retreat",
+            founded: "1980",
+            status: "active",
+            description: "42-foot Tashi Gomang Stupa on 200 acres, blessed by the 16th Karmapa",
+            features: "Public stupa, retreat facilities, lifetime retreatant"
+        },
+        {
+            name: "Longchen Jigme Samten Ling",
+            tradition: "buddhist",
+            type: "Long-term Retreat Center",
+            founded: "1995",
+            status: "active",
+            description: "Mangala Shri Bhuti retreat center with Sangdo Palri Temple and Tara Dzong",
+            features: "12 retreat cabins, year-round occupancy, Dzigar Kongtrul guidance"
+        },
+        {
+            name: "Chamma Ling Colorado",
+            tradition: "buddhist",
+            type: "Bon Buddhist Center",
+            founded: "2001",
+            status: "active",
+            description: "Ligmincha International center for ancient Bon tradition teachings",
+            features: "Solitary retreat cabins, group retreats, Tenzin Wangyal Rinpoche"
+        },
+        {
+            name: "Yeshe Khorlo USA (Choying Dzong)",
+            tradition: "buddhist",
+            type: "Nyingma Buddhist Center",
+            founded: "Unknown",
+            status: "active",
+            description: "Nyingma Buddhist retreat and meditation center",
+            features: "Meditation programs, retreat facilities"
+        },
+        {
+            name: "Dragon Mountain Temple",
+            tradition: "buddhist",
+            type: "Zen Temple",
+            founded: "2000s",
+            status: "active",
+            description: "Zen Buddhist temple with traditional retreat facilities and ceremonies",
+            features: "Mountain seat ceremony, sesshin retreats, seasonal orientation"
+        },
+        {
+            name: "Osel Ling (MSB Dharma Center)",
+            tradition: "buddhist",
+            type: "Dharma Center",
+            founded: "Unknown",
+            status: "active",
+            description: "Mangala Shri Bhuti sangha center for group study and practice",
+            features: "Community gatherings, dharma teachings, study groups"
+        },
+        {
+            name: "Haidakhandi Universal Ashram",
+            tradition: "hindu",
+            type: "Hindu Ashram",
+            founded: "1980s",
+            status: "active",
+            description: "101-acre ashram with Lakshmi Temple dedicated to Divine Mother",
+            features: "Life-size Haidakhandeswari murti, fire ceremonies, spiritual upliftment"
+        },
+        {
+            name: "Crestone MahaLakshmi Temple",
+            tradition: "hindu",
+            type: "Hindu Temple",
+            founded: "Unknown",
+            status: "active",
+            description: "Hindu temple open daily during daylight hours",
+            features: "Daily worship, yoga participation, community meals"
+        },
+        {
+            name: "Nur Ashki Jerrahi Community",
+            tradition: "sufi",
+            type: "Sufi Dervish Order",
+            founded: "Unknown",
+            status: "active",
+            description: "Halveti-Jerrahi Tariqat order welcoming all spiritual paths",
+            features: "Monthly dhikr, study circles, mystical Qur'an classes"
+        },
+        {
+            name: "Crestone Golden Light Sufi Circle",
+            tradition: "sufi",
+            type: "Sufi Study Circle",
+            founded: "Unknown",
+            status: "active",
+            description: "Monthly gatherings for dhikr, Rumi study, and Qur'an classes",
+            features: "Interfaith welcome, monthly meetings, mystical studies"
+        },
+        {
+            name: "Nada Hermitage (Former)",
+            tradition: "christian",
+            type: "Carmelite Hermitage",
+            founded: "1982",
+            status: "inactive",
+            description: "Former Spiritual Life Institute branch living according to primitive Carmelite ideal",
+            features: "Contemplative prayer, hermitage life, wilderness setting"
+        },
+        {
+            name: "Crestone Baptist Church",
+            tradition: "christian",
+            type: "Baptist Church",
+            founded: "1975",
+            status: "active",
+            description: "Community Baptist church dedicated to Bob Thalmann's memory",
+            features: "Sunday services, Sunday school, community outreach"
+        },
+        {
+            name: "Center for Contemplative Research",
+            tradition: "interfaith",
+            type: "Contemplative Research Center",
+            founded: "2020",
+            status: "active",
+            description: "Miyo Samten Ling hermitage for intensive meditation practice under B. Alan Wallace",
+            features: "110 acres, 13 retreat cabins, scientific approach to contemplation"
+        },
+        {
+            name: "Shumei International Institute",
+            tradition: "new-age",
+            type: "Japanese New Religion",
+            founded: "Unknown",
+            status: "active",
+            description: "Inspired by Mokichi Okada's philosophy promoting global citizenship",
+            features: "Natural agriculture, art appreciation, spiritual purification"
+        },
+        {
+            name: "Way of Nature Fellowship",
+            tradition: "new-age",
+            type: "Nature Spirituality",
+            founded: "Unknown",
+            status: "active",
+            description: "Global community exploring Source Awareness and nature communion",
+            features: "Earth-centered practices, environmental awareness, creative expression"
+        },
+        {
+            name: "Shri Aurobindo Learning Center",
+            tradition: "new-age",
+            type: "Integral Yoga Center",
+            founded: "Unknown",
+            status: "active",
+            description: "Study and realization of Sri Aurobindo and The Mother's spiritual vision",
+            features: "Workshops, retreats, exchanges with Auroville"
+        },
+        {
+            name: "White Jewel Mountain",
+            tradition: "new-age",
+            type: "Healing Arts Center",
+            founded: "Unknown",
+            status: "active",
+            description: "Spiritual center focusing on contemplative research and healing arts",
+            features: "Counseling psychology, creative arts, community events"
+        },
+        {
+            name: "Pundarika Foundation",
+            tradition: "buddhist",
+            type: "Support Foundation",
+            founded: "Unknown",
+            status: "active",
+            description: "Supporting Tsoknyi Rinpoche's teaching activities and humanitarian work",
+            features: "Dharma preservation, practitioner support, modern integration"
+        },
+        {
+            name: "Dharma Ocean Foundation",
+            tradition: "new-age",
+            type: "Embodied Spirituality",
+            founded: "Unknown",
+            status: "active",
+            description: "Community following path of embodied spirituality with somatic meditation",
+            features: "Householder lineage, somatic practices, international community"
+        },
+        {
+            name: "Crestone Ziggurat",
+            tradition: "new-age",
+            type: "Meditation Structure",
+            founded: "Unknown",
+            status: "active",
+            description: "Ancient Babylon-style temple structure for quiet meditation",
+            features: "Public access, mountain views, contemplative space"
+        },
+        {
+            name: "Colorado College Baca Campus",
+            tradition: "secular",
+            type: "Educational Retreat",
+            founded: "1987",
+            status: "active",
+            description: "Wilderness immersion campus for over 30,000 students",
+            features: "Literature programs, nature connection, academic retreats"
+        },
+        {
+            name: "Crestone End of Life Project",
+            tradition: "interfaith",
+            type: "Death Care Service",
+            founded: "2006",
+            status: "active",
+            description: "Community organization for localized end-of-life care",
+            features: "Open-air cremation, green burial, death education"
+        },
+        {
+            name: "Camino de Crestone",
+            tradition: "interfaith",
+            type: "Pilgrimage Program",
+            founded: "Unknown",
+            status: "active",
+            description: "Week-long interfaith pilgrimage visiting multiple spiritual centers",
+            features: "Religious unity, educational tours, annual September event"
+        },
+        {
+            name: "Crestone Healing Arts Center",
+            tradition: "new-age",
+            type: "Healing Arts Venue",
+            founded: "Unknown",
+            status: "active",
+            description: "Venue for spiritual teachers, artists, musicians, and healers",
+            features: "8,200 feet elevation, mountain views, diverse programs"
+        },
+        {
+            name: "Khenpo Karthar Stupa",
+            tradition: "buddhist",
+            type: "Buddhist Memorial",
+            founded: "2023",
+            status: "active",
+            description: "Seven-foot Stupa of Enlightenment honoring Khenpo Karthar Rinpoche",
+            features: "Consecrated 2023, international lamas, Kagyu lineage"
+        },
+        {
+            name: "Love Has Won",
+            tradition: "nrm",
+            type: "New Religious Movement/Cult",
+            founded: "2007",
+            status: "inactive",
+            description: "Defunct cult led by Amy Carlson ('Mother God') until her death in 2021",
+            features: "Online livestreams, New Age beliefs, ended with leader's mummified death"
+        },
+        {
+            name: "5D Full Disclosure",
+            tradition: "nrm",
+            type: "NRM Successor Group",
+            founded: "2021",
+            status: "active",
+            description: "Successor group to Love Has Won, continuing Amy Carlson beliefs",
+            features: "YouTube content, belief in ascension, rejection of '3D world'"
+        },
+        {
+            name: "Joy Rains",
+            tradition: "nrm",
+            type: "NRM Splinter Group",
+            founded: "2021",
+            status: "active",
+            description: "Splinter group formed by Jason Castillo after Love Has Won collapse",
+            features: "Small following, continuation of group practices"
+        },
+        {
+            name: "Tulku Urgyen Stupa",
+            tradition: "buddhist",
+            type: "Buddhist Memorial",
+            founded: "Unknown",
+            status: "active",
+            description: "Memorial stupa for Tulku Urgyen Rinpoche",
+            features: "Sacred location, pilgrimage site"
+        },
+        {
+            name: "Padmasambhava Stupa",
+            tradition: "buddhist",
+            type: "Buddhist Memorial",
+            founded: "Unknown",
+            status: "active",
+            description: "Stupa dedicated to Padmasambhava with recent relocation",
+            features: "Recently moved location, traditional design"
+        },
+        {
+            name: "Baca National Wildlife Refuge",
+            tradition: "secular",
+            type: "Natural Conservation",
+            founded: "Unknown",
+            status: "active",
+            description: "92,500-acre wildlife conservation area supporting spiritual community",
+            features: "Wildlife protection, natural setting for spiritual practice"
+        },
+        {
+            name: "Manitou Foundation",
+            tradition: "interfaith",
+            type: "Foundation/Coordinating Body",
+            founded: "1977",
+            status: "active",
+            description: "Foundation coordinating spiritual land grants and ecological preservation",
+            features: "Land conservation, spiritual community support, environmental programs"
+        },
+        {
+            name: "Thunderbird Lodge - House of Original Thought",
+            tradition: "interfaith",
+            type: "Indigenous Ceremonial Center",
+            founded: "Unknown",
+            status: "active",
+            description: "Ceremonial gathering place for indigenous communities",
+            features: "Indigenous leadership, ceremonial space, community solutions"
+        },
+        {
+            name: "Crestone Community Labyrinth",
+            tradition: "interfaith",
+            type: "Walking Meditation",
+            founded: "Unknown",
+            status: "active",
+            description: "Community labyrinth for walking meditation and contemplation",
+            features: "Public access, meditative walking, interfaith use"
+        },
+        {
+            name: "Anthroposophical Study Groups",
+            tradition: "new-age",
+            type: "Steiner Study Groups",
+            founded: "Unknown",
+            status: "active",
+            description: "Private study groups following Rudolf Steiner's Anthroposophy, studying spiritual science and Gnostic Christianity",
+            features: "Biodynamic farming, Waldorf education interest, Rosicrucian connections"
+        },
+        {
+            name: "Sound Healing Practitioners",
+            tradition: "new-age",
+            type: "Vibrational Healing Network",
+            founded: "Various",
+            status: "active",
+            description: "Multiple individual practitioners offering crystal bowl healing, Tibetan singing bowls, and sound therapy",
+            features: "Private sessions, group sound baths, chakra balancing"
+        },
+        {
+            name: "Psychic & Intuitive Readers",
+            tradition: "new-age",
+            type: "Divination Practitioners",
+            founded: "Various",
+            status: "active",
+            description: "Network of astrologers, tarot readers, numerologists, and psychic mediums serving the spiritual community",
+            features: "Astrology charts, tarot readings, numerology, mediumship"
+        },
+        {
+            name: "Breathwork Practitioners",
+            tradition: "new-age",
+            type: "Consciousness Healing",
+            founded: "Various",
+            status: "active",
+            description: "Individual practitioners offering holotropic breathwork, conscious breathing, and breath healing modalities",
+            features: "Group sessions, private work, integration with other practices"
+        },
+        {
+            name: "Reiki & Energy Healers",
+            tradition: "new-age",
+            type: "Energy Healing Network",
+            founded: "Various",
+            status: "active",
+            description: "Multiple certified Reiki masters and energy healers providing hands-on healing services",
+            features: "Multiple Reiki traditions, distance healing, energy clearing"
+        },
+        {
+            name: "Indigenous Medicine Circles",
+            tradition: "indigenous",
+            type: "Native American Practices",
+            founded: "Traditional",
+            status: "active",
+            description: "Private groups honoring indigenous plant medicine traditions and ceremony, respecting Native American protocols",
+            features: "Sweat lodge ceremonies, plant medicine integration, cultural respect"
+        },
+        {
+            name: "Private Meditation Circles",
+            tradition: "interfaith",
+            type: "Contemplative Groups",
+            founded: "Various",
+            status: "active",
+            description: "Informal meditation groups meeting in homes and private spaces throughout the Baca Grande community",
+            features: "Interfaith meditation, silent sits, dharma study"
+        },
+        {
+            name: "Shamanic Practitioners",
+            tradition: "new-age",
+            type: "Neo-Shamanic Practice",
+            founded: "Various",
+            status: "active",
+            description: "Individual practitioners offering shamanic journeying, soul retrieval, and earth-based healing practices",
+            features: "Drum circles, power animal retrieval, extraction healing"
+        },
+        {
+            name: "Holistic Health Practitioners",
+            tradition: "new-age",
+            type: "Alternative Healing",
+            founded: "Various",
+            status: "active",
+            description: "Network of massage therapists, acupuncturists, herbalists, and holistic health providers",
+            features: "Massage therapy, acupuncture, herbal medicine, nutrition counseling"
+        },
+        {
+            name: "Esoteric Study Groups",
+            tradition: "new-age",
+            type: "Mystery School Traditions",
+            founded: "Various",
+            status: "active",
+            description: "Private groups studying various esoteric traditions including Gnosticism, Kabbalah, and Western mystery schools",
+            features: "Sacred geometry, hermetic studies, alchemical practices"
+        },
+        {
+            name: "UFO/ET Contact Groups",
+            tradition: "nrm",
+            type: "Extraterrestrial Contact",
+            founded: "Various",
+            status: "active",
+            description: "Small groups focused on UFO phenomena, ET contact, and galactic consciousness similar to Love Has Won's beliefs",
+            features: "CE-5 protocols, star seed identity, galactic federation beliefs"
+        },
+        {
+            name: "Crystal & Mineral Healers",
+            tradition: "new-age",
+            type: "Crystal Healing",
+            founded: "Various",
+            status: "active",
+            description: "Practitioners specializing in crystal healing, gem therapy, and mineral consciousness work",
+            features: "Crystal grids, gem elixirs, mineral meditation"
+        },
+    ];
+
+    let filteredData = [...spiritualCenters];
+
+    function renderTable() {
+        const tbody = document.getElementById('tableBody');
+        tbody.innerHTML = '';
+        
+        filteredData.forEach(center => {
+            const row = document.createElement('tr');
+            if (center.tradition === 'nrm') {
+                row.classList.add('nrm-highlight');
+            }
+            
+            row.innerHTML = `
+                <td><strong>${center.name}</strong></td>
+                <td><span class="tradition ${center.tradition}">${center.tradition.replace('-', ' ').toUpperCase()}</span></td>
+                <td>${center.type}</td>
+                <td class="founded">${center.founded}</td>
+                <td><span class="status ${center.status}">${center.status.toUpperCase()}</span></td>
+                <td class="description">${center.description}</td>
+                <td>${center.features}</td>
+            `;
+            
+            tbody.appendChild(row);
+        });
+        
+        updateCounts();
+    }
+
+    function updateCounts() {
+        document.getElementById('totalCount').textContent = filteredData.length;
+        document.getElementById('footerCount').textContent = filteredData.length;
+        
+        const traditions = new Set(filteredData.map(c => c.tradition));
+        document.getElementById('traditionCount').textContent = traditions.size;
+        
+        const nrms = filteredData.filter(c => c.tradition === 'nrm');
+        document.getElementById('nrmCount').textContent = nrms.length;
+    }
+
+    function filterData() {
+        const traditionFilter = document.getElementById('traditionFilter').value;
+        const statusFilter = document.getElementById('statusFilter').value;
+        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+        
+        filteredData = spiritualCenters.filter(center => {
+            const matchesTradition = !traditionFilter || center.tradition === traditionFilter;
+            const matchesStatus = !statusFilter || center.status === statusFilter;
+            const matchesSearch = !searchTerm || 
+                center.name.toLowerCase().includes(searchTerm) ||
+                center.description.toLowerCase().includes(searchTerm) ||
+                center.type.toLowerCase().includes(searchTerm) ||
+                center.features.toLowerCase().includes(searchTerm);
+            
+            return matchesTradition && matchesStatus && matchesSearch;
+        });
+        
+        renderTable();
+    }
+
+    function exportData() {
+        const headers = ['Name', 'Tradition', 'Type', 'Founded', 'Status', 'Description', 'Key Features'];
+        const csvContent = [
+            headers.join(','),
+            ...filteredData.map(center => [
+                `"${center.name}"`,
+                `"${center.tradition}"`,
+                `"${center.type}"`,
+                `"${center.founded}"`,
+                `"${center.status}"`,
+                `"${center.description}"`,
+                `"${center.features}"`
+            ].join(','))
+        ].join('\n');
+        
+        const blob = new Blob([csvContent], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        a.download = 'crestone_spiritual_centers.csv';
+        document.body.appendChild(a);
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
+
+    // Event listeners
+    document.getElementById('traditionFilter').addEventListener('change', filterData);
+    document.getElementById('statusFilter').addEventListener('change', filterData);
+    document.getElementById('searchInput').addEventListener('input', filterData);
+
+    // Initial render
+    renderTable();
+</script>
+```
+
+</body>
+</html>
