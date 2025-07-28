@@ -1,848 +1,1865 @@
-<!DOCTYPE html>
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crestone Spiritual Centers & Groups Database</title>
-    <style>
+
+
+    
+    
+    Crestone Comprehensive Community Database
+    
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
             margin: 0;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #6b7280 0%, #374151 100%);
             min-height: 100vh;
         }
 
-```
-    .container {
-        max-width: 1400px;
+<pre><code>    .container {
+        max-width: 1600px;
         margin: 0 auto;
-        background: white;
-        border-radius: 12px;
-        box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+        background: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
         overflow: hidden;
     }
-    
+
     .header {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
         color: white;
-        padding: 30px;
+        padding: 40px;
         text-align: center;
     }
-    
+
     .header h1 {
-        margin: 0 0 10px 0;
-        font-size: 2.5em;
-        font-weight: 300;
+        margin: 0 0 15px;
+        font-size: 2.8em;
+        font-weight: 700;
+        letter-spacing: -0.02em;
     }
-    
+
     .header p {
         margin: 0;
-        opacity: 0.9;
-        font-size: 1.1em;
+        font-size: 1.2em;
+        opacity: 0.85;
     }
-    
+
     .stats {
-        display: flex;
-        justify-content: center;
-        gap: 40px;
-        margin-top: 20px;
-        flex-wrap: wrap;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 30px;
+        margin: 30px 20px 0;
+        padding: 0 20px;
     }
-    
+
     .stat {
         text-align: center;
+        background: rgba(255, 255, 255, 0.1);
+        padding: 20px;
+        border-radius: 10px;
     }
-    
+
     .stat-number {
-        font-size: 2em;
-        font-weight: bold;
+        font-size: 2.2em;
+        font-weight: 700;
         display: block;
+        color: #60a5fa;
     }
-    
+
     .stat-label {
-        font-size: 0.9em;
+        font-size: 0.95em;
         opacity: 0.8;
     }
-    
+
     .controls {
-        padding: 20px 30px;
-        background: #f8f9fa;
-        border-bottom: 1px solid #e9ecef;
+        padding: 25px 30px;
+        background: #f9fafb;
+        border-bottom: 1px solid #e5e7eb;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        align-items: center;
     }
-    
+
     .filter-group {
         display: flex;
-        gap: 15px;
         align-items: center;
-        flex-wrap: wrap;
+        gap: 10px;
+        flex: 1;
+        min-width: 200px;
     }
-    
+
     .filter-group label {
         font-weight: 600;
-        color: #495057;
+        color: #374151;
+        white-space: nowrap;
     }
-    
+
     .filter-select, .search-input {
-        padding: 8px 12px;
-        border: 1px solid #ced4da;
-        border-radius: 6px;
+        padding: 10px 14px;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
         font-size: 14px;
+        width: 100%;
+        box-sizing: border-box;
     }
-    
+
     .search-input {
-        width: 250px;
+        max-width: 300px;
     }
-    
+
+    .reset-btn, .export-btn, .toggle-columns-btn {
+        background: #2563eb;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: background 0.2s;
+    }
+
+    .export-btn {
+        background: #16a34a;
+    }
+
+    .reset-btn:hover {
+        background: #1d4ed8;
+    }
+
+    .export-btn:hover {
+        background: #15803d;
+    }
+
+    .toggle-columns-btn:hover {
+        background: #1d4ed8;
+    }
+
     .table-container {
         overflow-x: auto;
-        max-height: 70vh;
+        max-height: 65vh;
     }
-    
+
     table {
         width: 100%;
         border-collapse: collapse;
         font-size: 14px;
     }
-    
+
     th {
-        background: #2c3e50;
+        background: #111827;
         color: white;
-        padding: 15px 12px;
+        padding: 16px;
         text-align: left;
         font-weight: 600;
         position: sticky;
         top: 0;
         z-index: 10;
+        cursor: pointer;
+        user-select: none;
     }
-    
+
+    th:hover {
+        background: #1f2937;
+    }
+
+    th.sortable::after {
+        content: &#39;↕&#39;;
+        margin-left: 8px;
+        opacity: 0.5;
+    }
+
+    th.asc::after {
+        content: &#39;↑&#39;;
+    }
+
+    th.desc::after {
+        content: &#39;↓&#39;;
+    }
+
     td {
-        padding: 12px;
-        border-bottom: 1px solid #e9ecef;
+        padding: 14px 16px;
+        border-bottom: 1px solid #e5e7eb;
         vertical-align: top;
     }
-    
+
     tr:hover {
-        background-color: #f8f9fa;
+        background: #f9fafb;
     }
-    
-    .tradition {
+
+    .category {
         display: inline-block;
-        padding: 4px 8px;
+        padding: 5px 10px;
         border-radius: 12px;
         font-size: 12px;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
-    
-    .buddhist { background: #e3f2fd; color: #1565c0; }
-    .hindu { background: #fff3e0; color: #ef6c00; }
-    .christian { background: #f3e5f5; color: #7b1fa2; }
-    .sufi { background: #e8f5e8; color: #2e7d32; }
-    .new-age { background: #fff8e1; color: #f57f17; }
-    .nrm { background: #ffebee; color: #c62828; }
-    .interfaith { background: #e1f5fe; color: #0277bd; }
-    .indigenous { background: #e0f2f1; color: #00695c; }
-    .secular { background: #f5f5f5; color: #424242; }
-    
+
+    .spiritual { background: #e0f2fe; color: #1d4ed8; }
+    .political { background: #fef2f2; color: #b91c1c; }
+    .underground { background: #f3e8ff; color: #6b21a8; }
+    .extremist { background: #fee2e2; color: #dc2626; }
+    .cooperative { background: #ecfccb; color: #15803d; }
+    .environmental { background: #d1fae5; color: #047857; }
+    .creative { background: #fefce8; color: #b45309; }
+    .intentional { background: #e0f2f1; color: #00695c; }
+    .secular { background: #f3f4f6; color: #374151; }
+
     .status {
         display: inline-block;
-        padding: 4px 8px;
+        padding: 5px 10px;
         border-radius: 12px;
-        font-size: 11px;
+        font-size: 12px;
         font-weight: 600;
     }
-    
-    .active { background: #c8e6c9; color: #2e7d32; }
-    .inactive { background: #ffcdd2; color: #c62828; }
-    .unknown { background: #f5f5f5; color: #757575; }
-    
+
+    .active { background: #d1fae5; color: #047857; }
+    .inactive { background: #fee2e2; color: #dc2626; }
+    .unknown { background: #f3f4f6; color: #6b7280; }
+
     .description {
-        max-width: 300px;
-        line-height: 1.4;
+        max-width: 350px;
+        line-height: 1.5;
     }
-    
-    .founded {
-        font-weight: 600;
-        color: #495057;
-    }
-    
-    .nrm-highlight {
-        background: linear-gradient(135deg, #ffebee 0%, #fce4ec 100%);
-    }
-    
+
     .footer {
-        padding: 20px 30px;
-        background: #f8f9fa;
-        border-top: 1px solid #e9ecef;
+        padding: 25px 30px;
+        background: #f9fafb;
+        border-top: 1px solid #e5e7eb;
         text-align: center;
-        color: #6c757d;
-        font-size: 0.9em;
+        color: #4b5563;
+        font-size: 0.95em;
+        line-height: 1.6;
     }
-    
-    .export-btn {
-        background: #28a745;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        border-radius: 6px;
-        cursor: pointer;
-        font-size: 14px;
-        margin-left: 15px;
+
+    .column-toggle {
+        display: none;
+        position: absolute;
+        background: #fff;
+        border: 1px solid #d1d5db;
+        border-radius: 8px;
+        padding: 10px;
+        z-index: 20;
     }
-    
-    .export-btn:hover {
-        background: #218838;
+
+    .column-toggle label {
+        display: block;
+        margin: 5px 0;
     }
-    
+
     @media (max-width: 768px) {
-        .stats {
-            gap: 20px;
+        .controls {
+            flex-direction: column;
+            align-items: stretch;
         }
-        
+
         .filter-group {
             flex-direction: column;
             align-items: stretch;
         }
-        
+
         .search-input {
-            width: 100%;
+            max-width: 100%;
+        }
+
+        .stats {
+            grid-template-columns: 1fr;
         }
     }
-</style>
-```
-
+&lt;/style&gt;
+</code></pre>
 </head>
 <body>
     <div class="container">
         <div class="header">
-            <h1>Crestone Ultimate Spiritual Database</h1>
-            <p>THE MOST COMPREHENSIVE SPIRITUAL TAXONOMY EVER COMPILED - Every conceivable religious, spiritual, and consciousness movement documented</p>
+            <h1>Crestone Comprehensive Community Database</h1>
+            <p>THE MOST DETAILED MAPPING OF CRESTONE'S DIVERSE ECOSYSTEM - Spiritual, Political, Underground, Cooperative, Creative, and Municipal Organizations</p>
             <div class="stats">
                 <div class="stat">
-                    <span class="stat-number" id="totalCount">81</span>
-                    <span class="stat-label">Total Movements</span>
+                    <span class="stat-number" id="totalCount">0</span>
+                    <span class="stat-label">Total Organizations</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-number" id="traditionCount">100</span>
-                    <span class="stat-label">% Coverage</span>
+                    <span class="stat-number" id="categoryCount">0</span>
+                    <span class="stat-label">Unique Categories</span>
                 </div>
                 <div class="stat">
-                    <span class="stat-number" id="nrmCount">25+</span>
-                    <span class="stat-label">Unique Types</span>
+                    <span class="stat-number" id="activeCount">0</span>
+                    <span class="stat-label">Active Organizations</span>
                 </div>
                 <div class="stat">
                     <span class="stat-number">COMPLETE</span>
-                    <span class="stat-label">Taxonomy</span>
+                    <span class="stat-label">Community Mapping</span>
                 </div>
             </div>
         </div>
 
-```
-    <div class="controls">
-        <div class="filter-group">
-            <label for="traditionFilter">Filter by Tradition:</label>
-            <select id="traditionFilter" class="filter-select">
-                <option value="">All Traditions</option>
-                <option value="buddhist">Buddhist</option>
-                <option value="hindu">Hindu</option>
-                <option value="christian">Christian</option>
-                <option value="sufi">Sufi</option>
-                <option value="new-age">New Age</option>
-                <option value="nrm">NRM</option>
-                <option value="interfaith">Interfaith</option>
-                <option value="indigenous">Indigenous</option>
-            </select>
-            
-            <label for="statusFilter">Filter by Status:</label>
-            <select id="statusFilter" class="filter-select">
-                <option value="">All Statuses</option>
-                <option value="active">Active</option>
-                <option value="inactive">Inactive</option>
-                <option value="unknown">Unknown</option>
-            </select>
-            
-            <label for="searchInput">Search:</label>
-            <input type="text" id="searchInput" class="search-input" placeholder="Search centers, traditions, locations...">
-            
-            <button class="export-btn" onclick="exportData()">Export CSV</button>
-        </div>
-    </div>
-    
-    <div class="table-container">
-        <table id="centersTable">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Tradition/Type</th>
-                    <th>Movement Category</th>
-                    <th>Est. Founded</th>
-                    <th>Activity Status</th>
-                    <th>Core Description & Practices</th>
-                    <th>Distinctive Features & Methods</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-            </tbody>
-        </table>
-    </div>
-    
-    <div class="footer">
-        <p>🏔️ CRESTONE ULTIMATE SPIRITUAL TAXONOMY 🏔️ - The world's most spiritually diverse community documented in unprecedented detail. Every tradition from ancient Buddhism to modern reality-hacking included: LGAT, Kabbalah, prosperity gospel, polytheistic, orthodox, fundamentalist, mainstream, fringe, gnostic, thelemic, monotheistic, new age, syncretic, esoteric, initiatory, occult, Wiccan, pagan, Asatru, identity, Christian nationalist, UFO, cargo cult, Q-linked, Masonic, Catholic, Discordian, SubGenius, Pastafarian, Dudeist, Jedi, and countless others.</p>
-        <p>📊 DATABASE COMPLETION: January 2025 | 🎯 TOTAL SPIRITUAL MOVEMENTS: <span id="footerCount">81</span> | 🌟 STATUS: ULTIMATE COMPREHENSIVE SPIRITUAL ECOSYSTEM MAPPED</p>
-    </div>
-</div>
+<pre><code>    &lt;div class=&quot;controls&quot;&gt;
+        &lt;div class=&quot;filter-group&quot;&gt;
+            &lt;label for=&quot;categoryFilter&quot;&gt;Filter by Category:&lt;/label&gt;
+            &lt;select id=&quot;categoryFilter&quot; class=&quot;filter-select&quot; multiple&gt;
+                &lt;option value=&quot;spiritual&quot;&gt;Spiritual&lt;/option&gt;
+                &lt;option value=&quot;political&quot;&gt;Political&lt;/option&gt;
+                &lt;option value=&quot;underground&quot;&gt;Underground&lt;/option&gt;
+                &lt;option value=&quot;extremist&quot;&gt;Extremist&lt;/option&gt;
+                &lt;option value=&quot;cooperative&quot;&gt;Cooperative&lt;/option&gt;
+                &lt;option value=&quot;environmental&quot;&gt;Environmental&lt;/option&gt;
+                &lt;option value=&quot;creative&quot;&gt;Creative&lt;/option&gt;
+                &lt;option value=&quot;intentional&quot;&gt;Intentional&lt;/option&gt;
+                &lt;option value=&quot;secular&quot;&gt;Secular&lt;/option&gt;
+            &lt;/select&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;filter-group&quot;&gt;
+            &lt;label for=&quot;statusFilter&quot;&gt;Filter by Status:&lt;/label&gt;
+            &lt;select id=&quot;statusFilter&quot; class=&quot;filter-select&quot;&gt;
+                &lt;option value=&quot;&quot;&gt;All Statuses&lt;/option&gt;
+                &lt;option value=&quot;active&quot;&gt;Active&lt;/option&gt;
+                &lt;option value=&quot;inactive&quot;&gt;Inactive&lt;/option&gt;
+                &lt;option value=&quot;unknown&quot;&gt;Unknown&lt;/option&gt;
+            &lt;/select&gt;
+        &lt;/div&gt;
+        &lt;div class=&quot;filter-group&quot;&gt;
+            &lt;label for=&quot;searchInput&quot;&gt;Search:&lt;/label&gt;
+            &lt;input type=&quot;text&quot; id=&quot;searchInput&quot; class=&quot;search-input&quot; placeholder=&quot;Search organizations, descriptions, regions...&quot;&gt;
+        &lt;/div&gt;
+        &lt;button class=&quot;reset-btn&quot; onclick=&quot;resetFilters()&quot;&gt;Reset Filters&lt;/button&gt;
+        &lt;button class=&quot;export-btn&quot; onclick=&quot;exportData()&quot;&gt;Export CSV&lt;/button&gt;
+        &lt;button class=&quot;toggle-columns-btn&quot; onclick=&quot;toggleColumnMenu()&quot;&gt;Toggle Columns&lt;/button&gt;
+        &lt;div class=&quot;column-toggle&quot; id=&quot;columnToggle&quot;&gt;
+            &lt;label&gt;&lt;input type=&quot;checkbox&quot; data-column=&quot;name&quot; checked&gt; Name&lt;/label&gt;
+            &lt;label&gt;&lt;input type=&quot;checkbox&quot; data-column=&quot;category&quot; checked&gt; Category&lt;/label&gt;
+            &lt;label&gt;&lt;input type=&quot;checkbox&quot; data-column=&quot;type&quot; checked&gt; Type&lt;/label&gt;
+            &lt;label&gt;&lt;input type=&quot;checkbox&quot; data-column=&quot;region&quot; checked&gt; Region&lt;/label&gt;
+            &lt;label&gt;&lt;input type=&quot;checkbox&quot; data-column=&quot;status&quot; checked&gt; Status&lt;/label&gt;
+            &lt;label&gt;&lt;input type=&quot;checkbox&quot; data-column=&quot;description&quot; checked&gt; Description&lt;/label&gt;
+            &lt;label&gt;&lt;input type=&quot;checkbox&quot; data-column=&quot;features&quot; checked&gt; Features&lt;/label&gt;
+        &lt;/div&gt;
+    &lt;/div&gt;
 
-<script>
-    const spiritualCenters = [
+    &lt;div class=&quot;table-container&quot;&gt;
+        &lt;table id=&quot;centersTable&quot;&gt;
+            &lt;thead&gt;
+                &lt;tr&gt;
+                    &lt;th class=&quot;sortable&quot; data-sort=&quot;name&quot;&gt;Name&lt;/th&gt;
+                    &lt;th class=&quot;sortable&quot; data-sort=&quot;category&quot;&gt;Category&lt;/th&gt;
+                    &lt;th class=&quot;sortable&quot; data-sort=&quot;type&quot;&gt;Type&lt;/th&gt;
+                    &lt;th class=&quot;sortable&quot; data-sort=&quot;region&quot;&gt;Region&lt;/th&gt;
+                    &lt;th class=&quot;sortable&quot; data-sort=&quot;status&quot;&gt;Status&lt;/th&gt;
+                    &lt;th class=&quot;sortable&quot; data-sort=&quot;description&quot;&gt;Description&lt;/th&gt;
+                    &lt;th class=&quot;sortable&quot; data-sort=&quot;features&quot;&gt;Features&lt;/th&gt;
+                &lt;/tr&gt;
+            &lt;/thead&gt;
+            &lt;tbody id=&quot;tableBody&quot;&gt;&lt;/tbody&gt;
+        &lt;/table&gt;
+    &lt;/div&gt;
+
+    &lt;div class=&quot;footer&quot;&gt;
+        &lt;p&gt;🏔️ CRESTONE COMPREHENSIVE COMMUNITY DATABASE 🏔️ - A detailed mapping of Crestone&#39;s unique ecosystem, including spiritual centers, political groups, underground networks, cooperatives, creative collectives, and municipal services.&lt;/p&gt;
+        &lt;p&gt;📊 DATABASE COMPLETION: January 2025 | 🎯 TOTAL ORGANIZATIONS: &lt;span id=&quot;footerCount&quot;&gt;0&lt;/span&gt; | 🌟 STATUS: ULTIMATE COMMUNITY ECOSYSTEM MAPPED&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+    const organizations = [
+        // Spiritual Organizations
         {
-            name: "Vajra Vidya Retreat Center",
-            tradition: "buddhist",
-            type: "Tibetan Buddhist Retreat Center",
-            founded: "1990s",
-            status: "active",
-            description: "Founded by Venerable Thrangu Rinpoche for intensive Buddhist practice, including traditional Three Year Retreats",
-            features: "35-acre campus, modern facilities, teachings by renowned masters"
+            name: &quot;Vajra Vidya Retreat Center&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Tibetan Buddhist Retreat Center&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Founded by Venerable Thrangu Rinpoche for intensive Buddhist practice, including traditional Three Year Retreats&quot;,
+            features: &quot;35-acre campus, modern facilities, teachings by renowned masters&quot;
         },
         {
-            name: "Tara Mandala (Connection to Crestone)",
-            tradition: "buddhist",
-            type: "Tibetan Buddhist Community",
-            founded: "1994",
-            status: "active",
-            description: "Led by Lama Tsultrim Allione, recognized as emanation of Machig Labdrön, with strong connections to Crestone spiritual community",
-            features: "Feeding Your Demons practice, Chöd lineage, Pagosa Springs center, Crestone connections"
+            name: &quot;Tara Mandala&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Tibetan Buddhist Community&quot;,
+            region: &quot;Pagosa Springs/Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Led by Lama Tsultrim Allione, recognized as emanation of Machig Labdrön, with strong connections to Crestone spiritual community&quot;,
+            features: &quot;Feeding Your Demons practice, Chöd lineage, Pagosa Springs center&quot;
         },
         {
-            name: "Yeshe Rangsal",
-            tradition: "buddhist",
-            type: "Tsoknyi Rinpoche's Western Seat",
-            founded: "Unknown",
-            status: "active",
-            description: "Western seat of Tsoknyi Rinpoche, connected to Pundarika Foundation activities",
-            features: "Dzogchen teachings, nunnery support, Eastern Tibet lineage"
+            name: &quot;Yeshe Rangsal&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Tsoknyi Rinpoche&#39;s Western Seat&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Western seat of Tsoknyi Rinpoche, connected to Pundarika Foundation activities&quot;,
+            features: &quot;Dzogchen teachings, nunnery support, Eastern Tibet lineage&quot;
         },
         {
-            name: "Crestone Mountain Zen Center (Dharma Sangha)",
-            tradition: "buddhist",
-            type: "Zen Monastic Center",
-            founded: "1990s",
-            status: "active",
-            description: "Zen Buddhist monastic practice and retreat center under Zentatsu Baker Roshi",
-            features: "Residential training, meditation retreats, online programs"
+            name: &quot;Crestone Mountain Zen Center&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Zen Monastic Center&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Zen Buddhist monastic practice and retreat center under Zentatsu Baker Roshi&quot;,
+            features: &quot;Residential training, meditation retreats, online programs&quot;
         },
         {
-            name: "Karma Thegsum Tashi Gomang (KTTG)",
-            tradition: "buddhist",
-            type: "Tibetan Buddhist Stupa & Retreat",
-            founded: "1980",
-            status: "active",
-            description: "42-foot Tashi Gomang Stupa on 200 acres, blessed by the 16th Karmapa",
-            features: "Public stupa, retreat facilities, lifetime retreatant"
+            name: &quot;Karma Thegsum Tashi Gomang&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Tibetan Buddhist Stupa &amp; Retreat&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;42-foot Tashi Gomang Stupa on 200 acres, blessed by the 16th Karmapa&quot;,
+            features: &quot;Public stupa, retreat facilities, lifetime retreatant&quot;
         },
         {
-            name: "Longchen Jigme Samten Ling",
-            tradition: "buddhist",
-            type: "Long-term Retreat Center",
-            founded: "1995",
-            status: "active",
-            description: "Mangala Shri Bhuti retreat center with Sangdo Palri Temple and Tara Dzong",
-            features: "12 retreat cabins, year-round occupancy, Dzigar Kongtrul guidance"
+            name: &quot;Longchen Jigme Samten Ling&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Long-term Retreat Center&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Mangala Shri Bhuti retreat center with Sangdo Palri Temple and Tara Dzong&quot;,
+            features: &quot;12 retreat cabins, year-round occupancy, Dzigar Kongtrul guidance&quot;
         },
         {
-            name: "Chamma Ling Colorado",
-            tradition: "buddhist",
-            type: "Bon Buddhist Center",
-            founded: "2001",
-            status: "active",
-            description: "Ligmincha International center for ancient Bon tradition teachings",
-            features: "Solitary retreat cabins, group retreats, Tenzin Wangyal Rinpoche"
+            name: &quot;Chamma Ling Colorado&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Bon Buddhist Center&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Ligmincha International center for ancient Bon tradition teachings&quot;,
+            features: &quot;Solitary retreat cabins, group retreats, Tenzin Wangyal Rinpoche&quot;
         },
         {
-            name: "Yeshe Khorlo USA (Choying Dzong)",
-            tradition: "buddhist",
-            type: "Nyingma Buddhist Center",
-            founded: "Unknown",
-            status: "active",
-            description: "Nyingma Buddhist retreat and meditation center",
-            features: "Meditation programs, retreat facilities"
+            name: &quot;Yeshe Khorlo USA (Choying Dzong)&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Nyingma Buddhist Center&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Nyingma Buddhist retreat and meditation center&quot;,
+            features: &quot;Meditation programs, retreat facilities&quot;
         },
         {
-            name: "Dragon Mountain Temple",
-            tradition: "buddhist",
-            type: "Zen Temple",
-            founded: "2000s",
-            status: "active",
-            description: "Zen Buddhist temple with traditional retreat facilities and ceremonies",
-            features: "Mountain seat ceremony, sesshin retreats, seasonal orientation"
+            name: &quot;Dragon Mountain Temple&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Zen Temple&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Zen Buddhist temple with traditional retreat facilities and ceremonies&quot;,
+            features: &quot;Mountain seat ceremony, sesshin retreats, seasonal orientation&quot;
         },
         {
-            name: "Osel Ling (MSB Dharma Center)",
-            tradition: "buddhist",
-            type: "Dharma Center",
-            founded: "Unknown",
-            status: "active",
-            description: "Mangala Shri Bhuti sangha center for group study and practice",
-            features: "Community gatherings, dharma teachings, study groups"
+            name: &quot;Osel Ling (MSB Dharma Center)&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Dharma Center&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Mangala Shri Bhuti sangha center for group study and practice&quot;,
+            features: &quot;Community gatherings, dharma teachings, study groups&quot;
         },
         {
-            name: "Haidakhandi Universal Ashram",
-            tradition: "hindu",
-            type: "Hindu Ashram",
-            founded: "1980s",
-            status: "active",
-            description: "101-acre ashram with Lakshmi Temple dedicated to Divine Mother",
-            features: "Life-size Haidakhandeswari murti, fire ceremonies, spiritual upliftment"
+            name: &quot;Haidakhandi Universal Ashram&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Hindu Ashram&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;101-acre ashram with Lakshmi Temple dedicated to Divine Mother&quot;,
+            features: &quot;Life-size Haidakhandeswari murti, fire ceremonies, spiritual upliftment&quot;
         },
         {
-            name: "Crestone MahaLakshmi Temple",
-            tradition: "hindu",
-            type: "Hindu Temple",
-            founded: "Unknown",
-            status: "active",
-            description: "Hindu temple open daily during daylight hours",
-            features: "Daily worship, yoga participation, community meals"
+            name: &quot;Crestone MahaLakshmi Temple&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Hindu Temple&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Hindu temple open daily during daylight hours&quot;,
+            features: &quot;Daily worship, yoga participation, community meals&quot;
         },
         {
-            name: "Nur Ashki Jerrahi Community",
-            tradition: "sufi",
-            type: "Sufi Dervish Order",
-            founded: "Unknown",
-            status: "active",
-            description: "Halveti-Jerrahi Tariqat order welcoming all spiritual paths",
-            features: "Monthly dhikr, study circles, mystical Qur'an classes"
+            name: &quot;Nur Ashki Jerrahi Community&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Sufi Dervish Order&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Halveti-Jerrahi Tariqat order welcoming all spiritual paths&quot;,
+            features: &quot;Monthly dhikr, study circles, mystical Qur&#39;an classes&quot;
         },
         {
-            name: "Crestone Golden Light Sufi Circle",
-            tradition: "sufi",
-            type: "Sufi Study Circle",
-            founded: "Unknown",
-            status: "active",
-            description: "Monthly gatherings for dhikr, Rumi study, and Qur'an classes",
-            features: "Interfaith welcome, monthly meetings, mystical studies"
+            name: &quot;Crestone Golden Light Sufi Circle&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Sufi Study Circle&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Monthly gatherings for dhikr, Rumi study, and Qur&#39;an classes&quot;,
+            features: &quot;Interfaith welcome, monthly meetings, mystical studies&quot;
         },
         {
-            name: "Nada Hermitage (Former)",
-            tradition: "christian",
-            type: "Carmelite Hermitage",
-            founded: "1982",
-            status: "inactive",
-            description: "Former Spiritual Life Institute branch living according to primitive Carmelite ideal",
-            features: "Contemplative prayer, hermitage life, wilderness setting"
+            name: &quot;Nada Hermitage&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Carmelite Hermitage&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;inactive&quot;,
+            description: &quot;Former Spiritual Life Institute branch living according to primitive Carmelite ideal&quot;,
+            features: &quot;Contemplative prayer, hermitage life, wilderness setting&quot;
         },
         {
-            name: "Crestone Baptist Church",
-            tradition: "christian",
-            type: "Baptist Church",
-            founded: "1975",
-            status: "active",
-            description: "Community Baptist church dedicated to Bob Thalmann's memory",
-            features: "Sunday services, Sunday school, community outreach"
+            name: &quot;Crestone Baptist Church&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Baptist Church&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Community Baptist church dedicated to Bob Thalmann&#39;s memory&quot;,
+            features: &quot;Sunday services, Sunday school, community outreach&quot;
         },
         {
-            name: "Center for Contemplative Research",
-            tradition: "interfaith",
-            type: "Contemplative Research Center",
-            founded: "2020",
-            status: "active",
-            description: "Miyo Samten Ling hermitage for intensive meditation practice under B. Alan Wallace",
-            features: "110 acres, 13 retreat cabins, scientific approach to contemplation"
+            name: &quot;Center for Contemplative Research&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Contemplative Research Center&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Miyo Samten Ling hermitage for intensive meditation practice under B. Alan Wallace&quot;,
+            features: &quot;110 acres, 13 retreat cabins, scientific approach to contemplation&quot;
         },
         {
-            name: "Shumei International Institute",
-            tradition: "new-age",
-            type: "Japanese New Religion",
-            founded: "Unknown",
-            status: "active",
-            description: "Inspired by Mokichi Okada's philosophy promoting global citizenship",
-            features: "Natural agriculture, art appreciation, spiritual purification"
+            name: &quot;Shumei International Institute&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Japanese New Religion&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Inspired by Mokichi Okada&#39;s philosophy promoting global citizenship&quot;,
+            features: &quot;Natural agriculture, art appreciation, spiritual purification&quot;
         },
         {
-            name: "Way of Nature Fellowship",
-            tradition: "new-age",
-            type: "Nature Spirituality",
-            founded: "Unknown",
-            status: "active",
-            description: "Global community exploring Source Awareness and nature communion",
-            features: "Earth-centered practices, environmental awareness, creative expression"
+            name: &quot;Way of Nature Fellowship&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Nature Spirituality&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Global community exploring Source Awareness and nature communion&quot;,
+            features: &quot;Earth-centered practices, environmental awareness, creative expression&quot;
         },
         {
-            name: "Shri Aurobindo Learning Center",
-            tradition: "new-age",
-            type: "Integral Yoga Center",
-            founded: "Unknown",
-            status: "active",
-            description: "Study and realization of Sri Aurobindo and The Mother's spiritual vision",
-            features: "Workshops, retreats, exchanges with Auroville"
+            name: &quot;Shri Aurobindo Learning Center&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Integral Yoga Center&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Study and realization of Sri Aurobindo and The Mother&#39;s spiritual vision&quot;,
+            features: &quot;Workshops, retreats, exchanges with Auroville&quot;
         },
         {
-            name: "White Jewel Mountain",
-            tradition: "new-age",
-            type: "Healing Arts Center",
-            founded: "Unknown",
-            status: "active",
-            description: "Spiritual center focusing on contemplative research and healing arts",
-            features: "Counseling psychology, creative arts, community events"
+            name: &quot;White Jewel Mountain&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Healing Arts Center&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Spiritual center focusing on contemplative research and healing arts&quot;,
+            features: &quot;Counseling psychology, creative arts, community events&quot;
         },
         {
-            name: "Pundarika Foundation",
-            tradition: "buddhist",
-            type: "Support Foundation",
-            founded: "Unknown",
-            status: "active",
-            description: "Supporting Tsoknyi Rinpoche's teaching activities and humanitarian work",
-            features: "Dharma preservation, practitioner support, modern integration"
+            name: &quot;Pundarika Foundation&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Support Foundation&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Supporting Tsoknyi Rinpoche&#39;s teaching activities and humanitarian work&quot;,
+            features: &quot;Dharma preservation, practitioner support, modern integration&quot;
         },
         {
-            name: "Dharma Ocean Foundation",
-            tradition: "new-age",
-            type: "Embodied Spirituality",
-            founded: "Unknown",
-            status: "active",
-            description: "Community following path of embodied spirituality with somatic meditation",
-            features: "Householder lineage, somatic practices, international community"
+            name: &quot;Dharma Ocean Foundation&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Embodied Spirituality&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Community following path of embodied spirituality with somatic meditation&quot;,
+            features: &quot;Householder lineage, somatic practices, international community&quot;
         },
         {
-            name: "Crestone Ziggurat",
-            tradition: "new-age",
-            type: "Meditation Structure",
-            founded: "Unknown",
-            status: "active",
-            description: "Ancient Babylon-style temple structure for quiet meditation",
-            features: "Public access, mountain views, contemplative space"
+            name: &quot;Crestone Ziggurat&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Meditation Structure&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Ancient Babylon-style temple structure for quiet meditation&quot;,
+            features: &quot;Public access, mountain views, contemplative space&quot;
         },
         {
-            name: "Colorado College Baca Campus",
-            tradition: "secular",
-            type: "Educational Retreat",
-            founded: "1987",
-            status: "active",
-            description: "Wilderness immersion campus for over 30,000 students",
-            features: "Literature programs, nature connection, academic retreats"
+            name: &quot;Crestone End of Life Project&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Death Care Service&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Community organization for localized end-of-life care&quot;,
+            features: &quot;Open-air cremation, green burial, death education&quot;
         },
         {
-            name: "Crestone End of Life Project",
-            tradition: "interfaith",
-            type: "Death Care Service",
-            founded: "2006",
-            status: "active",
-            description: "Community organization for localized end-of-life care",
-            features: "Open-air cremation, green burial, death education"
+            name: &quot;Camino de Crestone&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Pilgrimage Program&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Week-long interfaith pilgrimage visiting multiple spiritual centers&quot;,
+            features: &quot;Religious unity, educational tours, annual September event&quot;
         },
         {
-            name: "Camino de Crestone",
-            tradition: "interfaith",
-            type: "Pilgrimage Program",
-            founded: "Unknown",
-            status: "active",
-            description: "Week-long interfaith pilgrimage visiting multiple spiritual centers",
-            features: "Religious unity, educational tours, annual September event"
+            name: &quot;Crestone Healing Arts Center&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Healing Arts Venue&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Venue for spiritual teachers, artists, musicians, and healers&quot;,
+            features: &quot;8,200 feet elevation, mountain views, diverse programs&quot;
         },
         {
-            name: "Crestone Healing Arts Center",
-            tradition: "new-age",
-            type: "Healing Arts Venue",
-            founded: "Unknown",
-            status: "active",
-            description: "Venue for spiritual teachers, artists, musicians, and healers",
-            features: "8,200 feet elevation, mountain views, diverse programs"
+            name: &quot;Khenpo Karthar Stupa&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Buddhist Memorial&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Seven-foot Stupa of Enlightenment honoring Khenpo Karthar Rinpoche&quot;,
+            features: &quot;Consecrated 2023, international lamas, Kagyu lineage&quot;
         },
         {
-            name: "Khenpo Karthar Stupa",
-            tradition: "buddhist",
-            type: "Buddhist Memorial",
-            founded: "2023",
-            status: "active",
-            description: "Seven-foot Stupa of Enlightenment honoring Khenpo Karthar Rinpoche",
-            features: "Consecrated 2023, international lamas, Kagyu lineage"
+            name: &quot;Love Has Won&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;New Religious Movement/Cult&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;inactive&quot;,
+            description: &quot;Defunct cult led by Amy Carlson (&#39;Mother God&#39;) until her death in 2021&quot;,
+            features: &quot;Online livestreams, New Age beliefs, ended with leader&#39;s mummified death&quot;
         },
         {
-            name: "Love Has Won",
-            tradition: "nrm",
-            type: "New Religious Movement/Cult",
-            founded: "2007",
-            status: "inactive",
-            description: "Defunct cult led by Amy Carlson ('Mother God') until her death in 2021",
-            features: "Online livestreams, New Age beliefs, ended with leader's mummified death"
+            name: &quot;5D Full Disclosure&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;NRM Successor Group&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Successor group to Love Has Won, continuing Amy Carlson beliefs&quot;,
+            features: &quot;YouTube content, belief in ascension, rejection of &#39;3D world&#39;&quot;
         },
         {
-            name: "5D Full Disclosure",
-            tradition: "nrm",
-            type: "NRM Successor Group",
-            founded: "2021",
-            status: "active",
-            description: "Successor group to Love Has Won, continuing Amy Carlson beliefs",
-            features: "YouTube content, belief in ascension, rejection of '3D world'"
+            name: &quot;Joy Rains&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;NRM Splinter Group&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Splinter group formed by Jason Castillo after Love Has Won collapse&quot;,
+            features: &quot;Small following, continuation of group practices&quot;
         },
         {
-            name: "Joy Rains",
-            tradition: "nrm",
-            type: "NRM Splinter Group",
-            founded: "2021",
-            status: "active",
-            description: "Splinter group formed by Jason Castillo after Love Has Won collapse",
-            features: "Small following, continuation of group practices"
+            name: &quot;Tulku Urgyen Stupa&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Buddhist Memorial&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Memorial stupa for Tulku Urgyen Rinpoche&quot;,
+            features: &quot;Sacred location, pilgrimage site&quot;
         },
         {
-            name: "Tulku Urgyen Stupa",
-            tradition: "buddhist",
-            type: "Buddhist Memorial",
-            founded: "Unknown",
-            status: "active",
-            description: "Memorial stupa for Tulku Urgyen Rinpoche",
-            features: "Sacred location, pilgrimage site"
+            name: &quot;Padmasambhava Stupa&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Buddhist Memorial&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Stupa dedicated to Padmasambhava with recent relocation&quot;,
+            features: &quot;Recently moved location, traditional design&quot;
         },
         {
-            name: "Padmasambhava Stupa",
-            tradition: "buddhist",
-            type: "Buddhist Memorial",
-            founded: "Unknown",
-            status: "active",
-            description: "Stupa dedicated to Padmasambhava with recent relocation",
-            features: "Recently moved location, traditional design"
+            name: &quot;Manitou Foundation&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Foundation/Coordinating Body&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Foundation coordinating spiritual land grants and ecological preservation&quot;,
+            features: &quot;Land conservation, spiritual community support, environmental programs&quot;
         },
         {
-            name: "Baca National Wildlife Refuge",
-            tradition: "secular",
-            type: "Natural Conservation",
-            founded: "Unknown",
-            status: "active",
-            description: "92,500-acre wildlife conservation area supporting spiritual community",
-            features: "Wildlife protection, natural setting for spiritual practice"
+            name: &quot;Thunderbird Lodge - House of Original Thought&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Indigenous Ceremonial Center&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Ceremonial gathering place for indigenous communities&quot;,
+            features: &quot;Indigenous leadership, ceremonial space, community solutions&quot;
         },
         {
-            name: "Manitou Foundation",
-            tradition: "interfaith",
-            type: "Foundation/Coordinating Body",
-            founded: "1977",
-            status: "active",
-            description: "Foundation coordinating spiritual land grants and ecological preservation",
-            features: "Land conservation, spiritual community support, environmental programs"
+            name: &quot;Crestone Community Labyrinth&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Walking Meditation&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Community labyrinth for walking meditation and contemplation&quot;,
+            features: &quot;Public access, meditative walking, interfaith use&quot;
         },
         {
-            name: "Thunderbird Lodge - House of Original Thought",
-            tradition: "interfaith",
-            type: "Indigenous Ceremonial Center",
-            founded: "Unknown",
-            status: "active",
-            description: "Ceremonial gathering place for indigenous communities",
-            features: "Indigenous leadership, ceremonial space, community solutions"
+            name: &quot;Anthroposophical Study Groups&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Steiner Study Groups&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Private study groups following Rudolf Steiner&#39;s Anthroposophy, studying spiritual science and Gnostic Christianity&quot;,
+            features: &quot;Biodynamic farming, Waldorf education interest, Rosicrucian connections&quot;
         },
         {
-            name: "Crestone Community Labyrinth",
-            tradition: "interfaith",
-            type: "Walking Meditation",
-            founded: "Unknown",
-            status: "active",
-            description: "Community labyrinth for walking meditation and contemplation",
-            features: "Public access, meditative walking, interfaith use"
+            name: &quot;Sound Healing Practitioners&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Vibrational Healing Network&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Multiple individual practitioners offering crystal bowl healing, Tibetan singing bowls, and sound therapy&quot;,
+            features: &quot;Private sessions, group sound baths, chakra balancing&quot;
         },
         {
-            name: "Anthroposophical Study Groups",
-            tradition: "new-age",
-            type: "Steiner Study Groups",
-            founded: "Unknown",
-            status: "active",
-            description: "Private study groups following Rudolf Steiner's Anthroposophy, studying spiritual science and Gnostic Christianity",
-            features: "Biodynamic farming, Waldorf education interest, Rosicrucian connections"
+            name: &quot;Psychic &amp; Intuitive Readers&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Divination Practitioners&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Network of astrologers, tarot readers, numerologists, and psychic mediums serving the spiritual community&quot;,
+            features: &quot;Astrology charts, tarot readings, numerology, mediumship&quot;
         },
         {
-            name: "Sound Healing Practitioners",
-            tradition: "new-age",
-            type: "Vibrational Healing Network",
-            founded: "Various",
-            status: "active",
-            description: "Multiple individual practitioners offering crystal bowl healing, Tibetan singing bowls, and sound therapy",
-            features: "Private sessions, group sound baths, chakra balancing"
+            name: &quot;Breathwork Practitioners&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Consciousness Healing&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Individual practitioners offering holotropic breathwork, conscious breathing, and breath healing modalities&quot;,
+            features: &quot;Group sessions, private work, integration with other practices&quot;
         },
         {
-            name: "Psychic & Intuitive Readers",
-            tradition: "new-age",
-            type: "Divination Practitioners",
-            founded: "Various",
-            status: "active",
-            description: "Network of astrologers, tarot readers, numerologists, and psychic mediums serving the spiritual community",
-            features: "Astrology charts, tarot readings, numerology, mediumship"
+            name: &quot;Reiki &amp; Energy Healers&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Energy Healing Network&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Multiple certified Reiki masters and energy healers providing hands-on healing services&quot;,
+            features: &quot;Multiple Reiki traditions, distance healing, energy clearing&quot;
         },
         {
-            name: "Breathwork Practitioners",
-            tradition: "new-age",
-            type: "Consciousness Healing",
-            founded: "Various",
-            status: "active",
-            description: "Individual practitioners offering holotropic breathwork, conscious breathing, and breath healing modalities",
-            features: "Group sessions, private work, integration with other practices"
+            name: &quot;Indigenous Medicine Circles&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Native American Practices&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Private groups honoring indigenous plant medicine traditions and ceremony, respecting Native American protocols&quot;,
+            features: &quot;Sweat lodge ceremonies, plant medicine integration, cultural respect&quot;
         },
         {
-            name: "Reiki & Energy Healers",
-            tradition: "new-age",
-            type: "Energy Healing Network",
-            founded: "Various",
-            status: "active",
-            description: "Multiple certified Reiki masters and energy healers providing hands-on healing services",
-            features: "Multiple Reiki traditions, distance healing, energy clearing"
+            name: &quot;Private Meditation Circles&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Contemplative Groups&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Informal meditation groups meeting in homes and private spaces throughout the Baca Grande community&quot;,
+            features: &quot;Interfaith meditation, silent sits, dharma study&quot;
         },
         {
-            name: "Indigenous Medicine Circles",
-            tradition: "indigenous",
-            type: "Native American Practices",
-            founded: "Traditional",
-            status: "active",
-            description: "Private groups honoring indigenous plant medicine traditions and ceremony, respecting Native American protocols",
-            features: "Sweat lodge ceremonies, plant medicine integration, cultural respect"
+            name: &quot;Shamanic Practitioners&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Neo-Shamanic Practice&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Individual practitioners offering shamanic journeying, soul retrieval, and earth-based healing practices&quot;,
+            features: &quot;Drum circles, power animal retrieval, extraction healing&quot;
         },
         {
-            name: "Private Meditation Circles",
-            tradition: "interfaith",
-            type: "Contemplative Groups",
-            founded: "Various",
-            status: "active",
-            description: "Informal meditation groups meeting in homes and private spaces throughout the Baca Grande community",
-            features: "Interfaith meditation, silent sits, dharma study"
+            name: &quot;Holistic Health Practitioners&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Alternative Healing&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Network of massage therapists, acupuncturists, herbalists, and holistic health providers&quot;,
+            features: &quot;Massage therapy, acupuncture, herbal medicine, nutrition counseling&quot;
         },
         {
-            name: "Shamanic Practitioners",
-            tradition: "new-age",
-            type: "Neo-Shamanic Practice",
-            founded: "Various",
-            status: "active",
-            description: "Individual practitioners offering shamanic journeying, soul retrieval, and earth-based healing practices",
-            features: "Drum circles, power animal retrieval, extraction healing"
+            name: &quot;Esoteric Study Groups&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Mystery School Traditions&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Private groups studying various esoteric traditions including Gnosticism, Kabbalah, and Western mystery schools&quot;,
+            features: &quot;Sacred geometry, hermetic studies, alchemical practices&quot;
         },
         {
-            name: "Holistic Health Practitioners",
-            tradition: "new-age",
-            type: "Alternative Healing",
-            founded: "Various",
-            status: "active",
-            description: "Network of massage therapists, acupuncturists, herbalists, and holistic health providers",
-            features: "Massage therapy, acupuncture, herbal medicine, nutrition counseling"
+            name: &quot;UFO/ET Contact Groups&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Extraterrestrial Contact&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Small groups focused on UFO phenomena, ET contact, and galactic consciousness similar to Love Has Won&#39;s beliefs&quot;,
+            features: &quot;CE-5 protocols, star seed identity, galactic federation beliefs&quot;
         },
         {
-            name: "Esoteric Study Groups",
-            tradition: "new-age",
-            type: "Mystery School Traditions",
-            founded: "Various",
-            status: "active",
-            description: "Private groups studying various esoteric traditions including Gnosticism, Kabbalah, and Western mystery schools",
-            features: "Sacred geometry, hermetic studies, alchemical practices"
+            name: &quot;Crystal &amp; Mineral Healers&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Crystal Healing&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Practitioners specializing in crystal healing, gem therapy, and mineral consciousness work&quot;,
+            features: &quot;Crystal grids, gem elixirs, mineral meditation&quot;
         },
         {
-            name: "UFO/ET Contact Groups",
-            tradition: "nrm",
-            type: "Extraterrestrial Contact",
-            founded: "Various",
-            status: "active",
-            description: "Small groups focused on UFO phenomena, ET contact, and galactic consciousness similar to Love Has Won's beliefs",
-            features: "CE-5 protocols, star seed identity, galactic federation beliefs"
+            name: &quot;UNIUN Psilocybin Retreat Center&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Psychedelic Retreat&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Legal psilocybin retreat center under Crestone&#39;s decriminalized status, charging $4,250-$5,000 for 5-day retreats&quot;,
+            features: &quot;Psilocybin ceremonies, traditional practices, modern therapeutic approaches, indigenous reciprocity donations&quot;
         },
         {
-            name: "Crystal & Mineral Healers",
-            tradition: "new-age",
-            type: "Crystal Healing",
-            founded: "Various",
-            status: "active",
-            description: "Practitioners specializing in crystal healing, gem therapy, and mineral consciousness work",
-            features: "Crystal grids, gem elixirs, mineral meditation"
+            name: &quot;Little Shepherd in the Hills Chapel&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Interfaith Chapel&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Small interfaith chapel serving the spiritual needs of the broader Crestone community&quot;,
+            features: &quot;Interfaith services, wedding ceremonies, memorial services&quot;
         },
+        {
+            name: &quot;The Stupa of Enlightenment (Jangchub Chorten)&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Buddhist Memorial Stupa&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Traditional Buddhist stupa dedicated to enlightenment and spiritual awakening&quot;,
+            features: &quot;Meditation site, circumambulation path, prayer flag offerings&quot;
+        },
+        {
+            name: &quot;The Tashi Gomang Stupa (Rangjung Rigpe Dorje)&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Kagyu Memorial Stupa&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Memorial stupa honoring the 16th Karmapa Rangjung Rigpe Dorje, separate from main KTTG complex&quot;,
+            features: &quot;Kagyu lineage memorial, traditional Tibetan architecture, pilgrimage site&quot;
+        },
+        {
+            name: &quot;Spiritual Life Institute&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Catholic Contemplative Institute&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;inactive&quot;,
+            description: &quot;Original parent organization of Nada Hermitage, promoting contemplative Christian spirituality&quot;,
+            features: &quot;Contemplative spirituality, hermitage life, desert spirituality tradition&quot;
+        },
+        {
+            name: &quot;Ayahuasca Neo-Cathar Circle&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Neo-Gnostic Plant Medicine&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Underground group blending Cathar Gnostic Christianity with ayahuasca ceremonies, viewing plant medicine as direct gnosis&quot;,
+            features: &quot;Ayahuasca ceremonies, Gnostic Christianity, dualist theology, plant teacher integration&quot;
+        },
+        {
+            name: &quot;Psychedelic Integration Circles&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Integration Support Network&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Multiple circles providing integration support for consciousness explorers using various psychedelic modalities&quot;,
+            features: &quot;Integration circles, harm reduction, therapeutic support, consciousness exploration&quot;
+        },
+        {
+            name: &quot;Plant Medicine Study Groups&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Ethnobotanical Education&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Educational groups studying traditional plant medicines with respect for indigenous protocols&quot;,
+            features: &quot;Ethnobotanical education, cultural respect, traditional knowledge, indigenous partnership&quot;
+        },
+        {
+            name: &quot;Lutheran Study Groups&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Lutheran Protestant&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Lutheran practitioners following traditional Protestant Reformation theology and liturgical worship&quot;,
+            features: &quot;Justification by faith, liturgical worship, Lutheran confessions, community service&quot;
+        },
+        {
+            name: &quot;Temple of Set Practitioners&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Setian Left-Hand Path&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Followers of Michael Aquino&#39;s Temple of Set practicing individualistic occultism and self-deification&quot;,
+            features: &quot;Xeper (becoming), Set worship, black magic, individual empowerment&quot;
+        },
+        {
+            name: &quot;Druze Study Circle&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Druze Monotheistic&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Small group studying Druze philosophy blending Islamic, Christian, and Platonic elements&quot;,
+            features: &quot;Reincarnation beliefs, esoteric interpretation, monotheistic unity&quot;
+        },
+        // Underground/Criminal Organizations
+        {
+            name: &quot;Sureños&quot;,
+            category: &quot;underground&quot;,
+            type: &quot;Street Gang&quot;,
+            region: &quot;CO &amp; N. NM&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Street gang involved in drug distribution, extortion, violence, and human trafficking&quot;,
+            features: &quot;Gang affiliations, criminal networks, regional influence&quot;
+        },
+        {
+            name: &quot;Sons of Silence MC&quot;,
+            category: &quot;underground&quot;,
+            type: &quot;Outlaw Motorcycle Club&quot;,
+            region: &quot;Statewide CO &amp; NM&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Outlaw motorcycle club engaged in meth trafficking, weapons, violence, and organized crimes&quot;,
+            features: &quot;Motorcycle culture, hierarchical structure, criminal enterprises&quot;
+        },
+        {
+            name: &quot;211 Crew&quot;,
+            category: &quot;underground&quot;,
+            type: &quot;White Supremacist Prison Gang&quot;,
+            region: &quot;Colorado-focused&quot;,
+            status: &quot;active&quot;,
+            description: &quot;White supremacist prison gang involved in murder, kidnapping, trafficking, and high-profile assassinations&quot;,
+            features: &quot;Prison-based, violent operations, extremist ideology&quot;
+        },
+        {
+            name: &quot;Aryan Brotherhood&quot;,
+            category: &quot;underground&quot;,
+            type: &quot;White Supremacist Prison Gang&quot;,
+            region: &quot;National (incl. CO/NM)&quot;,
+            status: &quot;active&quot;,
+            description: &quot;National white supremacist prison gang engaged in murder-for-hire, extortion, and trafficking&quot;,
+            features: &quot;Hierarchical structure, prison-based, criminal networks&quot;
+        },
+        {
+            name: &quot;Soldiers of Aryan Culture (SAC)&quot;,
+            category: &quot;underground&quot;,
+            type: &quot;White Supremacist Prison Gang&quot;,
+            region: &quot;National (influence in CO)&quot;,
+            status: &quot;active&quot;,
+            description: &quot;White supremacist prison gang with violent initiation, drug trafficking, and prison-extortion&quot;,
+            features: &quot;Prison-based, violent rituals, extremist ideology&quot;
+        },
+        {
+            name: &quot;Colorado Crime Family&quot;,
+            category: &quot;underground&quot;,
+            type: &quot;Italian-American Mafia&quot;,
+            region: &quot;Denver/Pueblo&quot;,
+            status: &quot;inactive&quot;,
+            description: &quot;Historical Italian-American mafia involved in racketeering, extortion, gambling, and loansharking&quot;,
+            features: &quot;Historical operations, organized crime, regional influence&quot;
+        },
+        {
+            name: &quot;Tren de Aragua&quot;,
+            category: &quot;underground&quot;,
+            type: &quot;Venezuelan Transnational Gang&quot;,
+            region: &quot;Aurora, Denver metro&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Transnational gang involved in human trafficking, extortion, theft rings, and cartel crime&quot;,
+            features: &quot;International connections, cartel affiliations, violent operations&quot;
+        },
+        {
+            name: &quot;Mexican Drug DTOs (Sinaloa, CJNG, Gulf Cartel)&quot;,
+            category: &quot;underground&quot;,
+            type: &quot;Drug Trafficking Organizations&quot;,
+            region: &quot;SW border to CO/NM&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Mexican cartels distributing wholesale meth and heroin to local gangs&quot;,
+            features: &quot;Cartel networks, drug trafficking, cross-border operations&quot;
+        },
+        // Extremist/Political Organizations
+        {
+            name: &quot;United Constitutional Patriots (UCP)&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Militia Movement&quot;,
+            region: &quot;CO &amp; NM&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Militia group with anti-government ideology and paramilitary activities&quot;,
+            features: &quot;Vigilantism, border patrols, extremist rhetoric&quot;
+        },
+        {
+            name: &quot;New Mexico Civil Guard&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Militia Movement&quot;,
+            region: &quot;CO &amp; NM&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Militia group with anti-government ideology and paramilitary training&quot;,
+            features: &quot;Paramilitary activities, anti-government stance&quot;
+        },
+        {
+            name: &quot;Three Percenters&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Militia Movement&quot;,
+            region: &quot;CO &amp; NM&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Militia group with anti-government ideology and paramilitary activities&quot;,
+            features: &quot;Patriot movement, armed protests, extremist ideology&quot;
+        },
+        {
+            name: &quot;Boogaloo Movement&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Militia Movement&quot;,
+            region: &quot;CO &amp; NM&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Militia group advocating for civil unrest and anti-government ideology&quot;,
+            features: &quot;Armed demonstrations, online organizing, extremist rhetoric&quot;
+        },
+        {
+            name: &quot;Extremist-aligned Hacker/Disinfo Groups&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Cyber/Disinfo Cells&quot;,
+            region: &quot;Region-embedded&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Hacker and disinformation groups aligned with extremist ideologies&quot;,
+            features: &quot;Online propaganda, encrypted networks, fringe organizing&quot;
+        },
+        {
+            name: &quot;Colorado Alliance for Immigration Reform&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Advocacy group focused on immigration reform policies&quot;,
+            features: &quot;Policy advocacy, community organizing, conservative ideology&quot;
+        },
+        {
+            name: &quot;Family Policy Alliance&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Conservative advocacy group promoting family values and policies&quot;,
+            features: &quot;Christian-based advocacy, policy lobbying, community events&quot;
+        },
+        {
+            name: &quot;Family Research Institute&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Research and advocacy group promoting conservative family values&quot;,
+            features: &quot;Research publications, conservative ideology, policy influence&quot;
+        },
+        {
+            name: &quot;Focus on the Family&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Christian organization promoting family values and conservative policies&quot;,
+            features: &quot;Media outreach, policy advocacy, community programs&quot;
+        },
+        {
+            name: &quot;Gays Against Groomers - Colorado Chapter&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Advocacy group opposing certain social policies&quot;,
+            features: &quot;Social media campaigns, community organizing, controversial stance&quot;
+        },
+        {
+            name: &quot;Generations&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Advocacy group promoting generational values and conservative policies&quot;,
+            features: &quot;Community engagement, policy advocacy, conservative focus&quot;
+        },
+        {
+            name: &quot;The Pray in Jesus Name Project&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Christian advocacy group promoting religious and conservative policies&quot;,
+            features: &quot;Prayer campaigns, policy lobbying, community outreach&quot;
+        },
+        {
+            name: &quot;Colorado Eagle Forum&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Conservative advocacy group promoting traditional values&quot;,
+            features: &quot;Policy advocacy, community events, conservative ideology&quot;
+        },
+        {
+            name: &quot;Constitution Party - Colorado&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Party&quot;,
+            region: &quot;Statewide&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Political party advocating for constitutional governance&quot;,
+            features: &quot;Political campaigns, constitutional advocacy, statewide presence&quot;
+        },
+        {
+            name: &quot;Faith Education Commerce (FEC United)&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Advocacy group promoting faith, education, and commerce values&quot;,
+            features: &quot;Community organizing, policy advocacy, conservative focus&quot;
+        },
+        {
+            name: &quot;Freedom First Society&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Advocacy group promoting individual freedoms and conservative principles&quot;,
+            features: &quot;Educational campaigns, policy advocacy, community events&quot;
+        },
+        {
+            name: &quot;Moms for Liberty&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Advocacy group focused on parental rights and education policies&quot;,
+            features: &quot;Community organizing, policy advocacy, conservative ideology&quot;
+        },
+        {
+            name: &quot;Parents Involved in Education - Colorado&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Statewide&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Advocacy group promoting parental involvement in education&quot;,
+            features: &quot;Education policy advocacy, community engagement, statewide presence&quot;
+        },
+        {
+            name: &quot;Tactical Civics - Colorado&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Statewide&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Advocacy group promoting civic engagement and constitutional governance&quot;,
+            features: &quot;Community organizing, educational programs, statewide presence&quot;
+        },
+        {
+            name: &quot;We Are Change&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Grassroots advocacy group promoting political awareness and change&quot;,
+            features: &quot;Activism, community events, alternative media&quot;
+        },
+        {
+            name: &quot;Life Force Team&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Advocacy group promoting holistic and alternative political perspectives&quot;,
+            features: &quot;Community organizing, alternative ideology, local focus&quot;
+        },
+        {
+            name: &quot;Scriptures for America Worldwide Ministries&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Christian ministry promoting religious and conservative values&quot;,
+            features: &quot;Media outreach, community events, conservative ideology&quot;
+        },
+        {
+            name: &quot;American Freedom Network&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Advocacy group promoting freedom and conservative principles&quot;,
+            features: &quot;Community organizing, policy advocacy, local focus&quot;
+        },
+        {
+            name: &quot;Northern Kingdom Prophets&quot;,
+            category: &quot;political&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Religious advocacy group with political influence&quot;,
+            features: &quot;Religious activism, community organizing, local focus&quot;
+        },
+        {
+            name: &quot;Iron Militia&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Militia Movement&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Militia group with anti-government ideology and paramilitary activities&quot;,
+            features: &quot;Armed training, extremist rhetoric, local presence&quot;
+        },
+        {
+            name: &quot;Colorado Mountain Boys&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Militia Movement&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Local militia group with anti-government ideology&quot;,
+            features: &quot;Paramilitary activities, local organizing, extremist ideology&quot;
+        },
+        {
+            name: &quot;Asatru Folk Assembly - Colorado&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Religious Extremist Group&quot;,
+            region: &quot;Statewide&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Neo-pagan group with white nationalist affiliations&quot;,
+            features: &quot;Religious ceremonies, extremist ideology, statewide presence&quot;
+        },
+        {
+            name: &quot;The American States Assembly - Colorado&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Statewide&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Advocacy group promoting sovereign citizen ideologies&quot;,
+            features: &quot;Community organizing, sovereign citizen ideology, statewide presence&quot;
+        },
+        {
+            name: &quot;Colorado State Assembly&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Statewide&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Advocacy group promoting alternative governance structures&quot;,
+            features: &quot;Community organizing, sovereign citizen ideology, statewide presence&quot;
+        },
+        {
+            name: &quot;Peoples Operation Restoration&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Statewide&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Advocacy group promoting restoration of constitutional governance&quot;,
+            features: &quot;Community organizing, policy advocacy, statewide presence&quot;
+        },
+        {
+            name: &quot;Team Law&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Political Advocacy&quot;,
+            region: &quot;Statewide&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Advocacy group promoting legal and constitutional education&quot;,
+            features: &quot;Educational programs, community organizing, statewide presence&quot;
+        },
+        {
+            name: &quot;Patriot Front - Colorado&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;White Nationalist Group&quot;,
+            region: &quot;Statewide&quot;,
+            status: &quot;active&quot;,
+            description: &quot;White nationalist group promoting extremist ideologies&quot;,
+            features: &quot;Propaganda campaigns, community organizing, statewide presence&quot;
+        },
+        {
+            name: &quot;Militia Movement Sympathizers&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Anti-Government Militia&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Loosely affiliated individuals sympathetic to militia movement and anti-federal government sentiment&quot;,
+            features: &quot;Constitutional fundamentalism, anti-government views, preparedness culture&quot;
+        },
+        {
+            name: &quot;Aztlan Cultural Movement&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Chicano Nationalism&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Practitioners supporting Chicano nationalism and the cultural concept of Aztlan homeland&quot;,
+            features: &quot;Chicano identity, indigenous rights, cultural nationalism, land rights&quot;
+        },
+        {
+            name: &quot;Sovereign Citizen Movement&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Legal Resistance Movement&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Individuals rejecting federal authority and claiming sovereignty from government jurisdiction&quot;,
+            features: &quot;Legal theory, court challenges, document fraud, anti-government ideology&quot;
+        },
+        {
+            name: &quot;Tax Resistance Networks&quot;,
+            category: &quot;extremist&quot;,
+            type: &quot;Tax Resistance Movement&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Groups and individuals practicing various forms of tax resistance and anti-IRS sentiment&quot;,
+            features: &quot;Tax protest, constitutional arguments, alternative currency, barter systems&quot;
+        },
+        {
+            name: &quot;Religious Separatist Communities&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Christian Separatist&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Various groups practicing separation from mainstream society for religious and cultural reasons&quot;,
+            features: &quot;Social separation, religious purity, alternative economics, community self-sufficiency&quot;
+        },
+        // Cooperative Organizations
+        {
+            name: &quot;San Luis Valley Local Foods Coalition&quot;,
+            category: &quot;cooperative&quot;,
+            type: &quot;Food Cooperative Network&quot;,
+            region: &quot;San Luis Valley&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Sophisticated cooperative network managing CSA programs, wholesale distribution, and cooperative purchasing across the valley&quot;,
+            features: &quot;Valley Roots Food Hub, CSA coordination, cooperative purchasing, sustainable agriculture&quot;
+        },
+        {
+            name: &quot;Valley Roots Food Hub&quot;,
+            category: &quot;cooperative&quot;,
+            type: &quot;Agricultural Cooperative&quot;,
+            region: &quot;San Luis Valley&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Operational hub managing wholesale distribution and cooperative agricultural programs under SLVLFC&quot;,
+            features: &quot;Wholesale distribution, farmer support, local food systems, community agriculture&quot;
+        },
+        {
+            name: &quot;Rio Grande Farm Park&quot;,
+            category: &quot;cooperative&quot;,
+            type: &quot;Community Agriculture&quot;,
+            region: &quot;San Luis Valley&quot;,
+            status: &quot;active&quot;,
+            description: &quot;38 acres of community agricultural space managed through nonprofit trust structures&quot;,
+            features: &quot;Community farming, nonprofit land trust, agricultural education, sustainable practices&quot;
+        },
+        {
+            name: &quot;Chokecherry Farm&quot;,
+            category: &quot;cooperative&quot;,
+            type: &quot;Permaculture Demonstration Site&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Permaculture demonstration site and CSA pickup location exemplifying owner-operator cooperative models&quot;,
+            features: &quot;Permaculture education, CSA programs, sustainable farming, demonstration site&quot;
+        },
+        {
+            name: &quot;Saguache County Sustainable Environment &amp; Economic Development&quot;,
+            category: &quot;cooperative&quot;,
+            type: &quot;Cooperative Development Organization&quot;,
+            region: &quot;Saguache County&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Coordinates business development through cooperative principles rather than traditional labor organizing&quot;,
+            features: &quot;Cooperative business development, sustainable economics, community enterprise support&quot;
+        },
+        {
+            name: &quot;Area 420 Cannabis Business Park&quot;,
+            category: &quot;cooperative&quot;,
+            type: &quot;Cannabis Cooperative&quot;,
+            region: &quot;Moffat&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Innovative shared-infrastructure business model where nine independent cannabis operators collectively own 420 acres&quot;,
+            features: &quot;Shared infrastructure, cannabis cultivation, cooperative ownership, business innovation&quot;
+        },
+        {
+            name: &quot;Aventa Credit Union&quot;,
+            category: &quot;cooperative&quot;,
+            type: &quot;Financial Cooperative&quot;,
+            region: &quot;Regional&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Credit union providing financial services after 2012 closure of Saguache County Credit Union&quot;,
+            features: &quot;Cooperative banking, financial services, member-owned institution&quot;
+        },
+        // Environmental Organizations
+        {
+            name: &quot;San Luis Valley Ecosystem Council&quot;,
+            category: &quot;environmental&quot;,
+            type: &quot;Environmental Advocacy&quot;,
+            region: &quot;San Luis Valley&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Aggressive environmental litigation organization challenging water export schemes and protecting 3.1 million acres&quot;,
+            features: &quot;Environmental litigation, EPA Environmental Stewardship Awards, water protection, ecological advocacy&quot;
+        },
+        {
+            name: &quot;Earth Law Center&quot;,
+            category: &quot;environmental&quot;,
+            type: &quot;Environmental Legal Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Facilitated Crestone&#39;s groundbreaking 2018 &#39;Rights of Nature&#39; resolution, the first in Colorado&quot;,
+            features: &quot;Rights of Nature advocacy, environmental law, legal innovation, ecological jurisprudence&quot;
+        },
+        {
+            name: &quot;Protect Our Water Coalition&quot;,
+            category: &quot;environmental&quot;,
+            type: &quot;Water Rights Advocacy&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Active organization fighting corporate water diversions threatening local agriculture&quot;,
+            features: &quot;Water rights protection, anti-diversion campaigns, agricultural advocacy, community organizing&quot;
+        },
+        {
+            name: &quot;The Crestone Eagle&quot;,
+            category: &quot;environmental&quot;,
+            type: &quot;Community Journalism&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Community newspaper operating since 1989, transitioning to nonprofit in 2022, providing investigative journalism&quot;,
+            features: &quot;Investigative journalism, taxation error exposure, environmental threat reporting, community news&quot;
+        },
+        {
+            name: &quot;Sangre de Cristo Dark Sky Coalition&quot;,
+            category: &quot;environmental&quot;,
+            type: &quot;Environmental Organization&quot;,
+            region: &quot;San Luis Valley&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Organization promoting dark sky preservation and light pollution reduction in the San Luis Valley&quot;,
+            features: &quot;Dark sky advocacy, light pollution education, astronomy promotion&quot;
+        },
+        {
+            name: &quot;NFPA Firewise USA Program&quot;,
+            category: &quot;environmental&quot;,
+            type: &quot;Fire Safety Organization&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Wildland Urban Interface fire mitigation program helping community prepare for wildfire risks&quot;,
+            features: &quot;Fire mitigation, defensible space, community preparedness, wildfire education&quot;
+        },
+        // Creative Organizations
+        {
+            name: &quot;Crestone Artists&quot;,
+            category: &quot;creative&quot;,
+            type: &quot;Artist Collective&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Primary artist collective with $25 annual membership, monthly meetings, and annual Open Studio Tour dating to 2005&quot;,
+            features: &quot;Monthly meetings, studio tours, community art projects, creative networking&quot;
+        },
+        {
+            name: &quot;The Range Gallery&quot;,
+            category: &quot;creative&quot;,
+            type: &quot;Art Gallery&quot;,
+            region: &quot;Saguache&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Professional exhibition space in nearby Saguache providing outlet for regional artists&quot;,
+            features: &quot;Professional exhibitions, regional artist showcases, cultural programming&quot;
+        },
+        {
+            name: &quot;Crestone Energy Fair&quot;,
+            category: &quot;creative&quot;,
+            type: &quot;Burner-Style Festival&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;36-year-old sustainability festival embodying burner principles through free workshops and radical self-reliance ethos&quot;,
+            features: &quot;Alternative building demos (straw bale, Earthships, cordwood), hands-on maker education, 1000+ attendees&quot;
+        },
+        {
+            name: &quot;Crestone Music Festival&quot;,
+            category: &quot;creative&quot;,
+            type: &quot;Music Festival&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Annual music festival organized by Crestone Performances, fostering creative community connections&quot;,
+            features: &quot;Live performances, community gathering, artistic expression, festival atmosphere&quot;
+        },
+        {
+            name: &quot;Crestone Poetry Festival&quot;,
+            category: &quot;creative&quot;,
+            type: &quot;Literary Festival&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Annual poetry festival bringing together literary artists and spiritual seekers&quot;,
+            features: &quot;Poetry readings, workshops, interfaith literary exploration, mountain setting&quot;
+        },
+        // Intentional Communities
+        {
+            name: &quot;Baca Grande Property Owners Association&quot;,
+            category: &quot;intentional&quot;,
+            type: &quot;Municipal Services Organization&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;501(c)(4) organization managing 14,000 acres, providing fire protection, emergency medical services, road maintenance, and community governance&quot;,
+            features: &quot;Municipal services, fire department, emergency services, road maintenance, golf course&quot;
+        },
+        {
+            name: &quot;Baca Grande Intentional Community&quot;,
+            category: &quot;intentional&quot;,
+            type: &quot;Intentional Community&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;The Baca Grande subdivision itself functions as a massive intentional community experiment with minimal building codes&quot;,
+            features: &quot;Alternative construction, sustainable living, community cooperation, experimental governance&quot;
+        },
+        {
+            name: &quot;Owner-Builder Networks&quot;,
+            category: &quot;intentional&quot;,
+            type: &quot;Construction Cooperative&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Mutual aid networks for alternative construction supported by mentorship programs and tool sharing&quot;,
+            features: &quot;Mutual aid construction, tool sharing, mentorship programs, alternative building education&quot;
+        },
+        {
+            name: &quot;Sustainable Living Groups&quot;,
+            category: &quot;intentional&quot;,
+            type: &quot;Ecovillage Network&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Multiple ecovillages and sustainable living groups integrating permaculture, solar energy, and community cooperation&quot;,
+            features: &quot;Permaculture integration, solar energy, community cooperation, sustainable living education&quot;
+        },
+        // Secular Organizations
+        {
+            name: &quot;Colorado College Baca Campus&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Educational Retreat&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Wilderness immersion campus for over 30,000 students&quot;,
+            features: &quot;Literature programs, nature connection, academic retreats&quot;
+        },
+        {
+            name: &quot;Baca National Wildlife Refuge&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Natural Conservation&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;92,500-acre wildlife conservation area supporting spiritual community&quot;,
+            features: &quot;Wildlife protection, natural setting for spiritual practice&quot;
+        },
+        {
+            name: &quot;Northern Saguache County Library District&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Cultural Infrastructure&quot;,
+            region: &quot;Saguache County&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Essential cultural infrastructure providing library services through two locations&quot;,
+            features: &quot;Library services, community programming, cultural resources, educational support&quot;
+        },
+        {
+            name: &quot;Saguache County Museum&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Historical Society&quot;,
+            region: &quot;Saguache County&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Preserves local history including Ute indigenous artifacts and mining era collections&quot;,
+            features: &quot;Historical preservation, Ute artifacts, mining history, cultural education&quot;
+        },
+        {
+            name: &quot;Crestone Performances&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Performing Arts Organization&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Nonprofit organizing annual music festival and Youth Enrichment Program providing instrument grants&quot;,
+            features: &quot;Music festival organization, Youth Enrichment Program, instrument grants, performing arts&quot;
+        },
+        {
+            name: &quot;4-H Clubs&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Youth Development&quot;,
+            region: &quot;Saguache County&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Regional 4-H clubs operating with dairy goat and rocketry projects&quot;,
+            features: &quot;Youth development, dairy goat projects, rocketry programs, agricultural education&quot;
+        },
+        {
+            name: &quot;Crestone Youth Plaza&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Youth Recreation&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Youth organization providing limited football programming and recreational activities&quot;,
+            features: &quot;Youth sports, recreational programming, community engagement, physical activities&quot;
+        },
+        {
+            name: &quot;American Legion Garcia Post 110&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Veterans Fraternal Organization&quot;,
+            region: &quot;Saguache&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Only traditional fraternal organization operating in Saguache, serving county veterans under Commander Terry Gillette&quot;,
+            features: &quot;Veterans services, community support, traditional fraternal activities, post meetings&quot;
+        },
+        {
+            name: &quot;Alamosa Elks Lodge #1297&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Fraternal Organization&quot;,
+            region: &quot;Alamosa&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Regional Elks lodge serving broader area with 250 members meeting twice monthly&quot;,
+            features: &quot;Fraternal brotherhood, community service, charitable activities, social gatherings&quot;
+        },
+        {
+            name: &quot;Saguache County Search &amp; Rescue (SAGSAR)&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Emergency Response&quot;,
+            region: &quot;Saguache County&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Wilderness emergency response team reflecting area&#39;s remote location and outdoor recreation risks&quot;,
+            features: &quot;Wilderness rescue, emergency response, search operations, outdoor safety&quot;
+        },
+        {
+            name: &quot;ARES/RACES Amateur Radio Networks&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Emergency Communications&quot;,
+            region: &quot;Saguache County&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Regional amateur radio networks coordinating with emergency management&quot;,
+            features: &quot;Emergency communications, disaster preparedness, radio coordination, emergency management&quot;
+        },
+        {
+            name: &quot;SKYWARN Weather Spotting Network&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Weather Emergency Network&quot;,
+            region: &quot;Saguache County&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Severe weather spotting network providing early warning services&quot;,
+            features: &quot;Weather spotting, severe weather alerts, community safety, emergency preparedness&quot;
+        },
+        {
+            name: &quot;Town of Crestone Government&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Municipal Administration&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Statutory town government serving 141 residents, providing municipal services and business licensing&quot;,
+            features: &quot;Municipal governance, business licensing, sales tax collection, town planning&quot;
+        },
+        {
+            name: &quot;Crestone Volunteer Fire Department&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Emergency Services&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Volunteer fire department providing emergency response for Crestone and Baca Grande communities&quot;,
+            features: &quot;Fire suppression, emergency medical services, rescue operations&quot;
+        },
+        {
+            name: &quot;Crestone Charter School&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Educational Institution&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Local charter school serving the educational needs of the Crestone community&quot;,
+            features: &quot;K-12 education, alternative education approaches, community-based learning&quot;
+        },
+        {
+            name: &quot;Arizona-Colorado Land and Cattle Company&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Development Company&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;inactive&quot;,
+            description: &quot;Original development company that created Baca Grande subdivision before Maurice Strong&#39;s involvement&quot;,
+            features: &quot;Real estate development, infrastructure installation, community planning&quot;
+        },
+        {
+            name: &quot;Creative Trade Gift Shop&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Spiritual Commerce&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Gift shop reflecting the modern soul of Crestone with prayer flags, religious-themed art and jewelry&quot;,
+            features: &quot;Spiritual merchandise, prayer flags, religious art, crystals, books&quot;
+        },
+        {
+            name: &quot;Former Crestone Brewing Company&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Commercial Business&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;inactive&quot;,
+            description: &quot;Former local brewery where missing person Crystal Reisinger worked before her disappearance in 2016&quot;,
+            features: &quot;Local brewing, community gathering space, employment for spiritual seekers&quot;
+        },
+        {
+            name: &quot;High Country Cannabis Dispensary&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Cannabis Retail&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Local cannabis dispensary serving the spiritual community with organic and craft cannabis products&quot;,
+            features: &quot;Organic cannabis, craft products, community-focused, spiritual customer base&quot;
+        },
+        {
+            name: &quot;Mountain Medicine Cannabis Collective&quot;,
+            category: &quot;secular&quot;,
+            type: &quot;Cannabis Collective&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Cannabis cultivation collective emphasizing organic growing methods and community cooperation&quot;,
+            features: &quot;Organic cultivation, collective growing, community cooperation, sustainable practices&quot;
+        },
+        {
+            name: &quot;Sacred Plant Cannabis Cultivators&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Spiritual Cannabis Network&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Network of individual cultivators treating cannabis as sacred plant medicine within spiritual practice&quot;,
+            features: &quot;Sacred plant approach, spiritual cultivation, plant spirit communication, ceremonial use&quot;
+        },
+        {
+            name: &quot;Ganja Yoga Practitioners&quot;,
+            category: &quot;spiritual&quot;,
+            type: &quot;Cannabis Yoga Network&quot;,
+            region: &quot;Crestone&quot;,
+            status: &quot;active&quot;,
+            description: &quot;Yoga practitioners incorporating cannabis into meditative and movement practices&quot;,
+            features: &quot;Cannabis-enhanced yoga, meditative practices, body awareness, spiritual movement&quot;
+        }
     ];
 
-    let filteredData = [...spiritualCenters];
+    let filteredData = [...organizations];
+    let sortColumn = null;
+    let sortDirection = &#39;asc&#39;;
+    let visibleColumns = [&#39;name&#39;, &#39;category&#39;, &#39;type&#39;, &#39;region&#39;, &#39;status&#39;, &#39;description&#39;, &#39;features&#39;];
 
     function renderTable() {
-        const tbody = document.getElementById('tableBody');
-        tbody.innerHTML = '';
-        
-        filteredData.forEach(center => {
-            const row = document.createElement('tr');
-            if (center.tradition === 'nrm') {
-                row.classList.add('nrm-highlight');
-            }
-            
+        const tbody = document.getElementById(&#39;tableBody&#39;);
+        tbody.innerHTML = &#39;&#39;;
+
+        filteredData.forEach(org =&gt; {
+            const row = document.createElement(&#39;tr&#39;);
             row.innerHTML = `
-                <td><strong>${center.name}</strong></td>
-                <td><span class="tradition ${center.tradition}">${center.tradition.replace('-', ' ').toUpperCase()}</span></td>
-                <td>${center.type}</td>
-                <td class="founded">${center.founded}</td>
-                <td><span class="status ${center.status}">${center.status.toUpperCase()}</span></td>
-                <td class="description">${center.description}</td>
-                <td>${center.features}</td>
+                ${visibleColumns.includes(&#39;name&#39;) ? `&lt;td&gt;&lt;strong&gt;${org.name}&lt;/strong&gt;&lt;/td&gt;` : &#39;&#39;}
+                ${visibleColumns.includes(&#39;category&#39;) ? `&lt;td&gt;&lt;span class=&quot;category ${org.category}&quot;&gt;${org.category.toUpperCase()}&lt;/span&gt;&lt;/td&gt;` : &#39;&#39;}
+                ${visibleColumns.includes(&#39;type&#39;) ? `&lt;td&gt;${org.type}&lt;/td&gt;` : &#39;&#39;}
+                ${visibleColumns.includes(&#39;region&#39;) ? `&lt;td&gt;${org.region}&lt;/td&gt;` : &#39;&#39;}
+                ${visibleColumns.includes(&#39;status&#39;) ? `&lt;td&gt;&lt;span class=&quot;status ${org.status}&quot;&gt;${org.status.toUpperCase()}&lt;/span&gt;&lt;/td&gt;` : &#39;&#39;}
+                ${visibleColumns.includes(&#39;description&#39;) ? `&lt;td class=&quot;description&quot;&gt;${org.description}&lt;/td&gt;` : &#39;&#39;}
+                ${visibleColumns.includes(&#39;features&#39;) ? `&lt;td&gt;${org.features}&lt;/td&gt;` : &#39;&#39;}
             `;
-            
             tbody.appendChild(row);
         });
-        
+
         updateCounts();
+        updateColumnVisibility();
     }
 
     function updateCounts() {
-        document.getElementById('totalCount').textContent = filteredData.length;
-        document.getElementById('footerCount').textContent = filteredData.length;
-        
-        const traditions = new Set(filteredData.map(c => c.tradition));
-        document.getElementById('traditionCount').textContent = traditions.size;
-        
-        const nrms = filteredData.filter(c => c.tradition === 'nrm');
-        document.getElementById('nrmCount').textContent = nrms.length;
+        document.getElementById(&#39;totalCount&#39;).textContent = filteredData.length;
+        document.getElementById(&#39;footerCount&#39;).textContent = filteredData.length;
+        document.getElementById(&#39;categoryCount&#39;).textContent = new Set(filteredData.map(c =&gt; c.category)).size;
+        document.getElementById(&#39;activeCount&#39;).textContent = filteredData.filter(c =&gt; c.status === &#39;active&#39;).length;
+    }
+
+    function updateColumnVisibility() {
+        const headers = document.querySelectorAll(&#39;#centersTable th&#39;);
+        headers.forEach(header =&gt; {
+            const column = header.dataset.sort;
+            header.style.display = visibleColumns.includes(column) ? &#39;&#39; : &#39;none&#39;;
+        });
+
+        const rows = document.querySelectorAll(&#39;#centersTable tbody tr&#39;);
+        rows.forEach(row =&gt; {
+            const cells = row.querySelectorAll(&#39;td&#39;);
+            cells.forEach((cell, index) =&gt; {
+                const column = headers[index].dataset.sort;
+                cell.style.display = visibleColumns.includes(column) ? &#39;&#39; : &#39;none&#39;;
+            });
+        });
     }
 
     function filterData() {
-        const traditionFilter = document.getElementById('traditionFilter').value;
-        const statusFilter = document.getElementById('statusFilter').value;
-        const searchTerm = document.getElementById('searchInput').value.toLowerCase();
-        
-        filteredData = spiritualCenters.filter(center => {
-            const matchesTradition = !traditionFilter || center.tradition === traditionFilter;
-            const matchesStatus = !statusFilter || center.status === statusFilter;
-            const matchesSearch = !searchTerm || 
-                center.name.toLowerCase().includes(searchTerm) ||
-                center.description.toLowerCase().includes(searchTerm) ||
-                center.type.toLowerCase().includes(searchTerm) ||
-                center.features.toLowerCase().includes(searchTerm);
-            
-            return matchesTradition && matchesStatus && matchesSearch;
+        const categoryFilter = Array.from(document.getElementById(&#39;categoryFilter&#39;).selectedOptions).map(opt =&gt; opt.value);
+        const statusFilter = document.getElementById(&#39;statusFilter&#39;).value;
+        const searchTerm = document.getElementById(&#39;searchInput&#39;).value.toLowerCase();
+
+        filteredData = organizations.filter(org =&gt; {
+            const matchesCategory = categoryFilter.length === 0 || categoryFilter.includes(org.category);
+            const matchesStatus = !statusFilter || org.status === statusFilter;
+            const matchesSearch = !searchTerm ||
+                org.name.toLowerCase().includes(searchTerm) ||
+                org.description.toLowerCase().includes(searchTerm) ||
+                org.type.toLowerCase().includes(searchTerm) ||
+                org.features.toLowerCase().includes(searchTerm) ||
+                org.region.toLowerCase().includes(searchTerm);
+
+            return matchesCategory &amp;&amp; matchesStatus &amp;&amp; matchesSearch;
         });
-        
+
         renderTable();
     }
 
+    function resetFilters() {
+        document.getElementById(&#39;categoryFilter&#39;).selectedIndex = -1;
+        document.getElementById(&#39;statusFilter&#39;).value = &#39;&#39;;
+        document.getElementById(&#39;searchInput&#39;).value = &#39;&#39;;
+        sortColumn = null;
+        sortDirection = &#39;asc&#39;;
+        document.querySelectorAll(&#39;th.sortable&#39;).forEach(th =&gt; {
+            th.classList.remove(&#39;asc&#39;, &#39;desc&#39;);
+        });
+        visibleColumns = [&#39;name&#39;, &#39;category&#39;, &#39;type&#39;, &#39;region&#39;, &#39;status&#39;, &#39;description&#39;, &#39;features&#39;];
+        document.querySelectorAll(&#39;#columnToggle input&#39;).forEach(input =&gt; input.checked = true);
+        filteredData = [...organizations];
+        renderTable();
+    }
+
+    function sortData(column) {
+        if (sortColumn === column) {
+            sortDirection = sortDirection === &#39;asc&#39; ? &#39;desc&#39; : &#39;asc&#39;;
+        } else {
+            sortColumn = column;
+            sortDirection = &#39;asc&#39;;
+        }
+
+        filteredData.sort((a, b) =&gt; {
+            const valA = a[column] || &#39;&#39;;
+            const valB = b[column] || &#39;&#39;;
+            if (typeof valA === &#39;string&#39;) {
+                return sortDirection === &#39;asc&#39;
+                    ? valA.localeCompare(valB)
+                    : valB.localeCompare(valA);
+            }
+            return sortDirection === &#39;asc&#39; ? valA - valB : valB - valA;
+        });
+
+        document.querySelectorAll(&#39;th.sortable&#39;).forEach(th =&gt; {
+            th.classList.remove(&#39;asc&#39;, &#39;desc&#39;);
+            if (th.dataset.sort === column) {
+                th.classList.add(sortDirection);
+            }
+        });
+
+        renderTable();
+    }
+
+    function toggleColumnMenu() {
+        const menu = document.getElementById(&#39;columnToggle&#39;);
+        menu.style.display = menu.style.display === &#39;block&#39; ? &#39;none&#39; : &#39;block&#39;;
+    }
+
     function exportData() {
-        const headers = ['Name', 'Tradition', 'Type', 'Founded', 'Status', 'Description', 'Key Features'];
+        const headers = visibleColumns.map(col =&gt; col.charAt(0).toUpperCase() + col.slice(1));
         const csvContent = [
-            headers.join(','),
-            ...filteredData.map(center => [
-                `"${center.name}"`,
-                `"${center.tradition}"`,
-                `"${center.type}"`,
-                `"${center.founded}"`,
-                `"${center.status}"`,
-                `"${center.description}"`,
-                `"${center.features}"`
-            ].join(','))
-        ].join('\n');
-        
-        const blob = new Blob([csvContent], { type: 'text/csv' });
+            headers.join(&#39;,&#39;),
+            ...filteredData.map(org =&gt; visibleColumns.map(col =&gt; `&quot;${(org[col] || &#39;&#39;).replace(/&quot;/g, &#39;&quot;&quot;&#39;)}&quot;`).join(&#39;,&#39;))
+        ].join(&#39;\n&#39;);
+
+        const blob = new Blob([csvContent], { type: &#39;text/csv&#39; });
         const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.style.display = 'none';
+        const a = document.createElement(&#39;a&#39;);
+        a.style.display = &#39;none&#39;;
         a.href = url;
-        a.download = 'crestone_spiritual_centers.csv';
+        a.download = &#39;crestone_comprehensive_database.csv&#39;;
         document.body.appendChild(a);
         a.click();
         window.URL.revokeObjectURL(url);
     }
 
     // Event listeners
-    document.getElementById('traditionFilter').addEventListener('change', filterData);
-    document.getElementById('statusFilter').addEventListener('change', filterData);
-    document.getElementById('searchInput').addEventListener('input', filterData);
+    document.getElementById(&#39;categoryFilter&#39;).addEventListener(&#39;change&#39;, filterData);
+    document.getElementById(&#39;statusFilter&#39;).addEventListener(&#39;change&#39;, filterData);
+    document.getElementById(&#39;searchInput&#39;).addEventListener(&#39;input&#39;, filterData);
+    document.querySelectorAll(&#39;th.sortable&#39;).forEach(th =&gt; {
+        th.addEventListener(&#39;click&#39;, () =&gt; sortData(th.dataset.sort));
+    });
+    document.querySelectorAll(&#39;#columnToggle input&#39;).forEach(input =&gt; {
+        input.addEventListener(&#39;change&#39;, () =&gt; {
+            visibleColumns = Array.from(document.querySelectorAll(&#39;#columnToggle input:checked&#39;)).map(input =&gt; input.dataset.column);
+            renderTable();
+        });
+    });
 
     // Initial render
     renderTable();
-</script>
-```
-
-</body>
+&lt;/script&gt;
+</code></pre>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'966143954e1ee769',t:'MTc1MzY3MzA3MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
